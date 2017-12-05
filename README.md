@@ -1,4 +1,4 @@
-# Yarmaq
+# Yarmarq
 
 The program will be using [NBP API](http://api.nbp.pl/).
 JSON file will be fetched from the web.
