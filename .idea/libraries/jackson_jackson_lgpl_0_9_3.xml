@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="jackson:jackson-lgpl:0.9.3" type="repository">
+    <properties maven-id="jackson:jackson-lgpl:0.9.3" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/jackson/jackson-lgpl/0.9.3/jackson-lgpl-0.9.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
