@@ -7,11 +7,11 @@ import java.io.Serializable;
 import java.net.URL;
 
 public class Rate implements Serializable {
-    private String table;
-    private String country;
-    private String symbol;
-    private String currency;
-    private String code;
+    private String table;                   // typ tabeli
+    private String country;                 // nazwa kraju
+    private String symbol;                  // symbol waluty (numeryczny, dotyczy kursów archiwalnych)
+    private String currency;                // nazwa waluty
+    private String code;                    // kod waluty
     private RRate[] rates;
 
     public String getTable() {

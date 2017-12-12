@@ -5,11 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RRate implements Serializable {
-    private String no;
-    private Date effectiveDate;
-    private Double mid;
-    private Double bid;
-    private Double ask;
+    private String no;                      // numer tabeli
+    private Date effectiveDate;             // data publikacji
+    private Double mid;                     // przeliczony kurs średni waluty (dotyczy tabel A oraz B)
+    private Double bid;                     // przeliczony kurs kupna waluty (dotyczy tabeli C)
+    private Double ask;                     // przeliczony kurs sprzedaży waluty (dotyczy tabeli C)
 
     public String getNo() {
         return no;

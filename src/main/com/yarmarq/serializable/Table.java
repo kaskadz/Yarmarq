@@ -11,10 +11,10 @@ import java.util.Date;
 
 public class Table implements Serializable {
     private String table;                   // typ tabeli
-    private String no;                      // – numer tabeli
-    private Date tradingDate;             // – data notowania (dotyczy tabeli C)
-    private Date effectiveDate;           // – data publikacji
-    private TRate[] rates;                 // – lista kursów poszczególnych walut w tabeli
+    private String no;                      // numer tabeli
+    private Date tradingDate;               // data notowania (dotyczy tabeli C)
+    private Date effectiveDate;             // data publikacji
+    private TRate[] rates;                  // lista kursów poszczególnych walut w tabeli
 
     public String getTable() {
         return table;
