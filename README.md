@@ -10,7 +10,7 @@ Program should have following features:
 - [ ] Odszukuje walutę (tabela C), której kurs kupna był najmniejszy w podanym dniu
 - [ ] Wypisuje N walut (tabela C), posortowanych względem różnicy pomiędzy ceną sprzedaży a ceną kupna, w podanym dniu
 - [ ] Dla podanej waluty (tabela A) wypisuje informację kiedy dana waluta była najtańsza, a kiedy najdroższa
-- [ ] Rysuje (w trybie tekstowym) wykres zmian ceny (np. wykres słupkowy, za pomocą gwiazdek) podanej waluty (tabela A) w układzie tygodniowym, tzn. jaka była cena w poniedziałek, wtorek, itd. Jako parametr wejściowy podajemy: rok, miesiąc, numer tygodnia oraz symbol waluty
+- [ ] Rysuje (w trybie tekstowym) wykres zmian ceny (np. wykres słupkowy, za pomocą gwiazdek) podanej waluty (tabela A) w układzie tygodniowym, tzn. jaka była price w poniedziałek, wtorek, itd. Jako parametr wejściowy podajemy: rok, miesiąc, numer tygodnia oraz symbol waluty
 
 Notices:
 - [ ] It shouldReady for extension to [sejmometr API](https://mojepanstwo.pl/api/sejmometr)

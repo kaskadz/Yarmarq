@@ -1,15 +1,26 @@
 package com.yarmarq.serializable;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 
 public class Rate implements Serializable {
-    private String country;                 // – nazwa kraju
-    private String symbol;                  // – symbol waluty (numeryczny, dotyczy kursów archiwalnych)
-    private String currency;                // – nazwa waluty
-    private String code;                    // – kod waluty
-    private String bid;                     // – przeliczony kurs kupna waluty (dotyczy tabeli C)
-    private String ask;                     // – przeliczony kurs sprzedaży waluty (dotyczy tabeli C)
-    private String mid;                     // – przeliczony kurs średni waluty (dotyczy tabel A oraz B)
+    private String table;
+    private String country;
+    private String symbol;
+    private String currency;
+    private String code;
+    private RRate[] rates;
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
+    }
 
     public String getCountry() {
         return country;
@@ -43,27 +54,42 @@ public class Rate implements Serializable {
         this.code = code;
     }
 
-    public String getBid() {
-        return bid;
+    public RRate[] getRates() {
+        return rates;
     }
 
-    public void setBid(String bid) {
-        this.bid = bid;
+    public void setRates(RRate[] rates) {
+        this.rates = rates;
     }
 
-    public String getAsk() {
-        return ask;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("> RATE: [table: ");
+        sb.append(table);
+        sb.append("] [country: ");
+        sb.append(country);
+        sb.append("] [symbol: ");
+        sb.append(symbol);
+        sb.append("] [currency: ");
+        sb.append(currency);
+        sb.append("] [code: ");
+        sb.append(code);
+        sb.append("]\n");
+        for (RRate rate : rates) {
+            sb.append(rate);
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
-    public void setAsk(String ask) {
-        this.ask = ask;
-    }
-
-    public String getMid() {
-        return mid;
-    }
-
-    public void setMid(String mid) {
-        this.mid = mid;
+    public static void main(String[] args) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Rate rate = mapper.readValue(new URL("http://api.nbp.pl/api/exchangerates/rates/a/gbp/2012-01-01/2012-01-31/?format=json"), Rate.class);
+            System.out.println(rate);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
