@@ -2,6 +2,7 @@ package com.yarmarq.serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yarmarq.module.DateFormatter;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -38,10 +39,13 @@ public class Gold implements Serializable {
         this.price = price;
     }
 
+    public String getFormattedDate() {
+        return DateFormatter.formatDate(date);
+    }
+
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(this.date);
+        String date = getFormattedDate();
         return String.format("G:[%.2f] %s", price, date);
     }
 

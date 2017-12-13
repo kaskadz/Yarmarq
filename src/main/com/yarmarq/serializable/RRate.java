@@ -1,5 +1,7 @@
 package com.yarmarq.serializable;
 
+import com.yarmarq.module.DateFormatter;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,10 +53,13 @@ public class RRate implements Serializable {
         this.ask = ask;
     }
 
+    public String getFormattedEffectiveDate() {
+        return DateFormatter.formatDate(effectiveDate);
+    }
+
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(this.effectiveDate);
+        String date = getFormattedEffectiveDate();
         return String.format("No: %s, effectiveDate: %s, mid: %f, bid: %f, ask: %f", no, date, mid, bid, ask);
     }
 }

@@ -1,6 +1,7 @@
 package com.yarmarq.serializable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yarmarq.module.DateFormatter;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -56,11 +57,18 @@ public class Table implements Serializable {
         this.rates = rates;
     }
 
+    public String getFormattedTradingDate() {
+        return DateFormatter.formatDate(tradingDate);
+    }
+
+    public String getFormattedEffectiveDate() {
+        return DateFormatter.formatDate(effectiveDate);
+    }
+
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String tdate = (this.tradingDate != null) ? sdf.format(this.tradingDate) : null;
-        String edate = (this.effectiveDate != null) ? sdf.format(this.effectiveDate) : null;
+        String tdate = getFormattedTradingDate();
+        String edate = getFormattedEffectiveDate();
         StringBuilder sb = new StringBuilder();
         sb.append("> TABLE: [Table: ");
         sb.append(table);

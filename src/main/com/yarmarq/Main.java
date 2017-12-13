@@ -23,7 +23,7 @@ public class Main implements Runnable {
 
     @Option(names = {"-h", "-?", "--help"}, usageHelp = true,
             description = "Print usage help and exit.")
-    boolean usageHelpRequested;
+    private boolean usageHelpRequested;
 
     public static void main(String[] args) {
         CommandLine.run(new Main(), System.err, args);
