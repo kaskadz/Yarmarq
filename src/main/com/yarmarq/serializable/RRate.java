@@ -3,7 +3,6 @@ package com.yarmarq.serializable;
 import com.yarmarq.module.DateFormatter;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RRate implements Serializable {

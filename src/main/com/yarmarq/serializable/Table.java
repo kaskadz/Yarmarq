@@ -6,7 +6,6 @@ import com.yarmarq.module.DateFormatter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
