@@ -10,8 +10,13 @@ public class MinmaxSubComm implements Runnable {
             description = "Print usage help and exit.")
     private boolean usageHelpRequested;
 
+    @Parameters(index = "0", arity = "1", paramLabel = "CODE",
+            description = "Currency code.")
+    private String code;
+
     @Override
     public void run() {
         System.out.println("Minmax");
+        System.out.println(code);
     }
 }

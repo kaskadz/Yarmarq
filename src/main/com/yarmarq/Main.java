@@ -11,11 +11,11 @@ import com.yarmarq.subcommand.*;
         footer = "%nAuthor: Kasper Kądzielawa",
         optionListHeading = "Options:\n",
         subcommands = {
-                PriceSumComm.class,
+                PriceSubComm.class,
                 GoldSubComm.class,
                 FluctuationsSubComm.class,
                 CheapestSubComm.class,
-                SpreadSumComm.class,
+                SpreadSubComm.class,
                 MinmaxSubComm.class,
                 GraphSubComm.class,
         })
@@ -26,12 +26,12 @@ public class Main implements Runnable {
     private boolean usageHelpRequested;
 
     public static void main(String[] args) {
-        CommandLine.run(new Main(), System.err, args);
+        CommandLine.run(new Main(), System.out, args);
     }
 
     @Override
     public void run() {
-        System.out.println("Hello World!");
-        System.out.println("I've been just brought to life :)");
+        System.out.println("No subcommand was given, printing help.");
+        CommandLine.usage(this, System.out);
     }
 }
