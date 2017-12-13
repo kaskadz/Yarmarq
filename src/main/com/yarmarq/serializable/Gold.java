@@ -55,7 +55,7 @@ public class Gold implements Serializable {
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-//            Gold[] golds = mapper.readValue("[{\"data\":\"2017-12-12\",\"cena\":142.89}]", Gold[].class);
+//            GoldSubComm[] golds = mapper.readValue("[{\"data\":\"2017-12-12\",\"cena\":142.89}]", GoldSubComm[].class);
             Gold[] golds = mapper.readValue(new URL("http://api.nbp.pl/api/cenyzlota/last/30/?format=json"), Gold[].class);
             Arrays.asList(golds).forEach(System.out::println);
         } catch (IOException e) {
