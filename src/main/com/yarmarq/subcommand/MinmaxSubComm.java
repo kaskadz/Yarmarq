@@ -2,7 +2,8 @@ package com.yarmarq.subcommand;
 
 import picocli.CommandLine.*;
 
-@Command(name = "minmax")
+@Command(name = "minmax",
+        description = "For a given currency in a table A prints info, about the lowest and the highest exchange rate.")
 public class MinmaxSubComm implements Runnable {
 
     @Option(names = {"-h", "-?", "--help"}, usageHelp = true,

@@ -11,13 +11,13 @@ import com.yarmarq.subcommand.*;
         footer = "%nAuthor: Kasper Kądzielawa",
         optionListHeading = "Options:\n",
         subcommands = {
-                GoldSubComm.class,
-                CheapestSubComm.class,
-                FluctuationsSubComm.class,
-                GraphSubComm.class,
-                MinmaxSubComm.class,
                 PriceSumComm.class,
-                SpreadSumComm.class
+                GoldSubComm.class,
+                FluctuationsSubComm.class,
+                CheapestSubComm.class,
+                SpreadSumComm.class,
+                MinmaxSubComm.class,
+                GraphSubComm.class,
         })
 public class Main implements Runnable {
 
