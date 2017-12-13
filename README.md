@@ -11,9 +11,9 @@ Program should have following features:
 - [ ] Wypisuje N walut (tabela C), posortowanych względem różnicy pomiędzy ceną sprzedaży a ceną kupna, w podanym dniu
 - [ ] Dla podanej waluty (tabela A) wypisuje informację kiedy dana waluta była najtańsza, a kiedy najdroższa
 - [ ] Rysuje (w trybie tekstowym) wspólny (dla wszystkich tygodni) wykres zmian ceny (np. wykres słupkowy, za pomocą różnorodnych znaków ASCII) podanej waluty (tabela A) w układzie tygodniowym, tzn. jaka była cena w poniedziałek, wtorek, itd. w pierwszym tygodniu, drugim tygodniu, ...
-      - Jako parametry wejściowe podajemy symbol waluty oraz dwa okresy: początkowy oraz końcowy
-      - Każdy z okresów podajemy w postaci: rok, miesiąc, numer tygodnia
-      - Przyjmujemy, że pierwszym dniem okresu początkowego jest poniedziałek, a ostatnim dniem okresu końcowego jest piątek
+  - Jako parametry wejściowe podajemy symbol waluty oraz dwa okresy: początkowy oraz końcowy
+  - Każdy z okresów podajemy w postaci: rok, miesiąc, numer tygodnia
+  - Przyjmujemy, że pierwszym dniem okresu początkowego jest poniedziałek, a ostatnim dniem okresu końcowego jest piątek
 - [x] Po wywołaniu programu bez argumentów wyświetla pomoc (opis opcji oraz sposobu uruchamiania programu)
 
 Notices:
