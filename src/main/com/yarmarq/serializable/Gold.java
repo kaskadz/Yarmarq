@@ -46,7 +46,7 @@ public class Gold implements Serializable {
     @Override
     public String toString() {
         String date = getFormattedDate();
-        return String.format("G:[%.2f] %s", price, date);
+        return String.format("> GOLD: Date: %s Price: %.2f", date, price);
     }
 
     public static void main(String[] args) throws ParseException {
