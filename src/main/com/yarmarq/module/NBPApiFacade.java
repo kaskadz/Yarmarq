@@ -7,6 +7,7 @@ import com.yarmarq.serializable.Table;
 import java.util.Date;
 import java.util.List;
 
+// Facade - Provide a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.
 public class NBPApiFacade {
 
     public Rate getRate(String code) {
