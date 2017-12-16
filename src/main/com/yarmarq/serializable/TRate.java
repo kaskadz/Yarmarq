@@ -51,6 +51,6 @@ public class TRate implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Currency: %s, Code: %s, mid: %f, bid: %f, ask: %f", currency, code, mid, bid, ask);
+        return String.format("Code: %3s, Currency: %-35s, mid: %f, bid: %f, ask: %f", code, currency, mid, bid, ask);
     }
 }

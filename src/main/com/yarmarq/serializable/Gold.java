@@ -46,7 +46,7 @@ public class Gold implements Serializable {
     @Override
     public String toString() {
         String date = getFormattedDate();
-        return String.format("G:[%.2f] %s", price, date);
+        return String.format("G:[%.2f] %s", price, date); //TODO: Fix toString() method for Gold.
     }
 
     public static void main(String[] args) throws ParseException {
@@ -59,7 +59,6 @@ public class Gold implements Serializable {
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-//            GoldSubComm[] golds = mapper.readValue("[{\"data\":\"2017-12-12\",\"cena\":142.89}]", GoldSubComm[].class);
             Gold[] golds = mapper.readValue(new URL("http://api.nbp.pl/api/cenyzlota/last/30/?format=json"), Gold[].class);
             Arrays.asList(golds).forEach(System.out::println);
         } catch (IOException e) {

@@ -1,9 +1,13 @@
 package com.yarmarq.module;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yarmarq.serializable.Gold;
 import com.yarmarq.serializable.Rate;
 import com.yarmarq.serializable.Table;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +17,18 @@ public class NBPApiFacade {
     public Rate getRate(String code) {
         // http://api.nbp.pl/api/exchangerates/rates/a/{code}/
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/%s/"; // code
-        return null;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, code));
+            if (fetcher.fetchResource()) {
+                return mapper.readValue(fetcher.getContent(), Rate.class);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public List<Rate> getRates(String code, Date startdate, Date enddate) {
@@ -25,7 +40,19 @@ public class NBPApiFacade {
     public Gold getGold() {
         // http://api.nbp.pl/api/cenyzlota
         String url = "http://api.nbp.pl/api/cenyzlota";
-        return null;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            OnlineResourceFetcher fetcher = new OnlineResourceFetcher(url);
+            if (fetcher.fetchResource()) {
+                Gold[] golds = mapper.readValue(fetcher.getContent(), Gold[].class);
+                return golds[0];
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public List<Gold> getGolds(Date startDate, Date endDate) {
@@ -37,7 +64,19 @@ public class NBPApiFacade {
     public Table getTable(String table, Date date) {
         // http://api.nbp.pl/api/exchangerates/tables/{table}/{date}/
         String url = "http://api.nbp.pl/api/exchangerates/tables/%s/%s/"; // table, date
-        return null;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, table, DateFormatter.formatDate(date)));
+            if (fetcher.fetchResource()) {
+                Table[] tables = mapper.readValue(fetcher.getContent(), Table[].class);
+                return tables[0];
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public List<Table> getTables(String table, Date startDate, Date endDate) {
@@ -45,4 +84,16 @@ public class NBPApiFacade {
         String url = "http://api.nbp.pl/api/exchangerates/tables/%s/%s/%s/"; // table, startDate, endDate
         return null;
     }
+
+    public static void main(String[] args) throws ParseException {
+        NBPApiFacade facade = new NBPApiFacade();
+        System.out.println(facade.getGold());
+        System.out.println(facade.getRate("gbp"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = sdf.parse("2017-12-15");
+        System.out.println(facade.getTable("a", date));
+    }
 }
+//TODO: Consider usage of exceptions.
+//TODO: Make periods generator.
+//TODO: Implement facade for lists of rates/golds/tables.

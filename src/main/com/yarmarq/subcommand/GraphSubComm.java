@@ -15,3 +15,5 @@ public class GraphSubComm implements Runnable {
         System.out.println("Graph");
     }
 }
+//TODO: Define graph parameters.
+//TODO: Implement graphing functionality.
