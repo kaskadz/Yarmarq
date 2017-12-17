@@ -6,8 +6,7 @@ import com.yarmarq.serializable.Rate;
 import com.yarmarq.serializable.Table;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class NBPApiFacade {
         }
     }
 
-    public List<Rate> getRates(String code, Date startdate, Date enddate) {
+    public List<Rate> getRates(String code, LocalDate startdate, LocalDate enddate) {
         // http://api.nbp.pl/api/exchangerates/rates/a/{code}/{startDate}/{endDate}/
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/%s/%s/%s/"; // code, startDate, endDate
         return null;
@@ -61,12 +60,12 @@ public class NBPApiFacade {
         return null;
     }
 
-    public Table getTable(String table, Date date) {
+    public Table getTable(String table, LocalDate date) {
         // http://api.nbp.pl/api/exchangerates/tables/{table}/{date}/
         String url = "http://api.nbp.pl/api/exchangerates/tables/%s/%s/"; // table, date
         ObjectMapper mapper = new ObjectMapper();
         try {
-            OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, table, DateFormatter.formatDate(date)));
+            OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, table, date));
             if (fetcher.fetchResource()) {
                 Table[] tables = mapper.readValue(fetcher.getContent(), Table[].class);
                 return tables[0];
@@ -85,13 +84,11 @@ public class NBPApiFacade {
         return null;
     }
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         NBPApiFacade facade = new NBPApiFacade();
         System.out.println(facade.getGold());
         System.out.println(facade.getRate("gbp"));
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = sdf.parse("2017-12-15");
-        System.out.println(facade.getTable("a", date));
+        System.out.println(facade.getTable("a", LocalDate.parse("2017-12-15")));
     }
 }
 //TODO: Consider usage of exceptions.

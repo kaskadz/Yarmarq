@@ -3,7 +3,6 @@ package com.yarmarq.serializable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.yarmarq.module.DateFormatter;
 
 import java.io.IOException;
 import java.io.Serializable;
