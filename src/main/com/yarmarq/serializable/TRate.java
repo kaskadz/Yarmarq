@@ -3,6 +3,7 @@ package com.yarmarq.serializable;
 import java.io.Serializable;
 
 public class TRate implements Serializable {
+    private String country;                 // - nazwa kraju
     private String currency;                // – nazwa waluty
     private String code;                    // – kod waluty
     private Double bid;                     // – przeliczony kurs kupna waluty (dotyczy tabeli C)
@@ -51,6 +52,14 @@ public class TRate implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Code: %3s, Currency: %-35s, mid: %f, bid: %f, ask: %f", code, currency, mid, bid, ask);
+        return String.format("Code: %3s, Currency: %-30s, Country: %-30s, mid: %f, bid: %f, ask: %f", code, currency, country, mid, bid, ask);
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

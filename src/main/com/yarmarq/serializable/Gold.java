@@ -2,30 +2,30 @@ package com.yarmarq.serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yarmarq.module.DateFormatter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 
 
 public class Gold implements Serializable {
     @JsonProperty("data")
-    private Date date;                      // – date publikacji
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate date;                 // – data publikacji
     @JsonProperty("cena")
     private Double price;                   // – wyliczona w NBP price 1 g złota (w próbie 1000)
 
     @JsonProperty("data")
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
     @JsonProperty("data")
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -39,21 +39,15 @@ public class Gold implements Serializable {
         this.price = price;
     }
 
-    public String getFormattedDate() {
-        return DateFormatter.formatDate(date);
-    }
-
     @Override
     public String toString() {
-        String date = getFormattedDate();
-        return String.format("G:[%.2f] %s", price, date); //TODO: Fix toString() method for Gold.
+        return String.format("> G: [Date: %s] [Price: %.2f]", date, price);
     }
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         Gold geld = new Gold();
         geld.setPrice(1234.567);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = sdf.parse("1997-08-10");
+        LocalDate date = LocalDate.parse("2017-12-15");
         geld.setDate(date);
         System.out.println(geld);
 
