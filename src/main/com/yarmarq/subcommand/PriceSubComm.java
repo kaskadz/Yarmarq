@@ -3,6 +3,7 @@ package com.yarmarq.subcommand;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Command(name = "price",
@@ -21,6 +22,10 @@ public class PriceSubComm implements Runnable {
     @Parameters(index = "1", arity = "0..1", paramLabel = "CODE",
             description = "Currency code.")
     private String code;
+
+    private void preRun() {
+        date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
+    }
 
     @Override
     public void run() {

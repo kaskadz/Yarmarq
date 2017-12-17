@@ -3,6 +3,7 @@ package com.yarmarq.subcommand;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Command(name = "gold",
@@ -22,6 +23,11 @@ public class GoldSubComm implements Runnable {
             description = "End of time period.")
     private Date basicEndDate;
     private LocalDate endDate;
+
+    private void preRun() {
+        startDate = LocalDate.ofInstant(basicStartDate.toInstant(), ZoneId.systemDefault());
+        endDate = LocalDate.ofInstant(basicEndDate.toInstant(), ZoneId.systemDefault());
+    }
 
     @Override
     public void run() {

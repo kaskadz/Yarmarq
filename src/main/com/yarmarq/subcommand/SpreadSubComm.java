@@ -3,6 +3,7 @@ package com.yarmarq.subcommand;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Command(name = "spread",
@@ -21,6 +22,10 @@ public class SpreadSubComm implements Runnable {
     @Parameters(index = "1", arity = "1", paramLabel = "N",
             description = "How many currencies to find.")
     private Integer n;
+
+    private void preRun() {
+        date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
+    }
 
     @Override
     public void run() {
