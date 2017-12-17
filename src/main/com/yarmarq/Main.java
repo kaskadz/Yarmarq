@@ -5,6 +5,8 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import com.yarmarq.subcommand.*;
 
+import java.time.LocalDate;
+
 @Command(name = "yarmarq", sortOptions = false,
         header = "%nYarmarq - simple access to NBP.pl resources.%n",
         description = "Provides an interface to Polish NBP api.%n",

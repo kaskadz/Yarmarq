@@ -3,6 +3,7 @@ package com.yarmarq.subcommand;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Command(name = "spread",
         description = "Finds n currencies (Table C), sorted by spread in a given day.")
@@ -14,6 +15,7 @@ public class SpreadSubComm implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "Date to calculate spread from.")
+    private Date basicDate;
     private LocalDate date;
 
     @Parameters(index = "1", arity = "1", paramLabel = "N",

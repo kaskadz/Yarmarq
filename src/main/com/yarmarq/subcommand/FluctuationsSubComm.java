@@ -3,6 +3,7 @@ package com.yarmarq.subcommand;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Command(name = "fluctuations",
         description = "Finds a currency in table A, which exchange rate, from a given date, fluctuated the most.")
@@ -14,6 +15,7 @@ public class FluctuationsSubComm implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "Date, from which to calculate fluctuations.")
+    private Date basicDate;
     private LocalDate date;
 
     @Parameters(index = "1", arity = "1", paramLabel = "CODE",
