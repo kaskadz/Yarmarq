@@ -12,6 +12,7 @@ import com.yarmarq.subcommand.*;
         optionListHeading = "Options:\n",
         subcommands = {
                 PriceSubComm.class,
+                GoldSubComm.class,
                 GoldAvgSubComm.class,
                 FluctuationsSubComm.class,
                 CheapestSubComm.class,
