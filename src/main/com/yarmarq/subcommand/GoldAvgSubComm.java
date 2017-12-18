@@ -40,9 +40,6 @@ public class GoldAvgSubComm implements Runnable {
 
     @Override
     public void run() {
-//        System.out.println("Gold");
-//        System.out.println(startDate);
-//        System.out.println(endDate);
         try {
             preRun();
             NBPApiFacade facade = NBPApiFacade.getInstance();

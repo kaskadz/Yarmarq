@@ -33,9 +33,6 @@ public class PriceSubComm implements Runnable {
     @Override
     public void run() {
         preRun();
-//        System.out.println("Price");
-//        System.out.println(date);
-//        System.out.println(code);
         NBPApiFacade facade = NBPApiFacade.getInstance();
         try {
             Rate rate;

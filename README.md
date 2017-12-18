@@ -5,9 +5,9 @@ JSON file will be fetched from the web.
 
 Program should have following features:
 - [ ] Wypisuje obowiązującą cenę złota oraz cenę podanej waluty (tabela A) w podanym dniu
-- [ ] Oblicza średnią cenę złota za podany okres
+- [x] Oblicza średnią cenę złota za podany okres
 - [ ] Odszukuje walutę (tabela A), której kurs, począwszy od podanego dnia, uległ największym wahaniom (waluta, której amplituda zmian kursu jest największa)
-- [ ] Odszukuje walutę (tabela C), której kurs kupna był najmniejszy w podanym dniu
+- [x] Odszukuje walutę (tabela C), której kurs kupna był najmniejszy w podanym dniu
 - [ ] Wypisuje N walut (tabela C), posortowanych względem różnicy pomiędzy ceną sprzedaży a ceną kupna, w podanym dniu
 - [ ] Dla podanej waluty (tabela A) wypisuje informację kiedy dana waluta była najtańsza, a kiedy najdroższa
 - [ ] Rysuje (w trybie tekstowym) wspólny (dla wszystkich tygodni) wykres zmian ceny (np. wykres słupkowy, za pomocą różnorodnych znaków ASCII) podanej waluty (tabela A) w układzie tygodniowym, tzn. jaka była cena w poniedziałek, wtorek, itd. w pierwszym tygodniu, drugim tygodniu, ...
@@ -18,4 +18,4 @@ Program should have following features:
 
 Notices:
 - [ ] It shouldReady for extension to [sejmometr API](https://mojepanstwo.pl/api/sejmometr)
-- [ ] At least one design pattern.
+- [x] At least one design pattern.

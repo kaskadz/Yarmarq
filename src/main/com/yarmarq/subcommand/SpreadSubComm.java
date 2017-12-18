@@ -34,3 +34,4 @@ public class SpreadSubComm implements Runnable {
         System.out.println(n);
     }
 }
+//TODO: Implement spread functionality.

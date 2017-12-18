@@ -35,3 +35,5 @@ public class MinmaxSubComm implements Runnable {
 //        }
     }
 }
+//TODO: Consider modifying NBPApiFacade getRates(...) method.
+//TODO: Implement minmax functionality.
