@@ -8,7 +8,7 @@ import java.net.*;
 import java.util.stream.Collectors;
 
 public class OnlineResourceFetcher {
-    private int responseCode;
+    private int responseCode = -1;
     private String responseMessage;
     private URL url;
     private String content;
@@ -27,6 +27,11 @@ public class OnlineResourceFetcher {
 
     public String getContent() {
         return content;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Response code: %d\nResponse message: %s\nURL: %s\nContent: %s", responseCode, responseMessage, url, content);
     }
 
     public OnlineResourceFetcher(String url) throws MalformedURLException {

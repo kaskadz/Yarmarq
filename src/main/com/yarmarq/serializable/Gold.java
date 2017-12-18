@@ -53,7 +53,7 @@ public class Gold implements Serializable {
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-            Gold[] golds = mapper.readValue(new URL("http://api.nbp.pl/api/cenyzlota/last/30/?format=json"), Gold[].class);
+            Gold[] golds = mapper.readValue(new URL("http://api.nbp.pl/api/cenyzlota/2013-01-01/2013-01-31/?format=json"), Gold[].class);
             Arrays.asList(golds).forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
