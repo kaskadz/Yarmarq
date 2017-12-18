@@ -20,12 +20,12 @@ public class OnlineResourcesAccessException extends Exception {
     }
 
     @Override
-    public String toString() {
+    public String getMessage() {
+        if (responseCode == -1) return String.format("Couldn't access URL: %s", url);
         return String.format("Server returned HTTP response code: %d\nWith message: %s\nFor URL: %s", responseCode, responseMessage, url);
     }
 
-    public OnlineResourcesAccessException(String message, int responseCode, String responseMessage, URL url) {
-        super(message);
+    public OnlineResourcesAccessException(int responseCode, String responseMessage, URL url) {
         this.responseCode = responseCode;
         this.responseMessage = responseMessage;
         this.url = url;

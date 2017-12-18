@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class TRate implements Serializable {
     private String country;                 // - nazwa kraju
     private String currency;                // – nazwa waluty
+    private String symbol;
     private String code;                    // – kod waluty
     private Double bid;                     // – przeliczony kurs kupna waluty (dotyczy tabeli C)
     private Double ask;                     // – przeliczony kurs sprzedaży waluty (dotyczy tabeli C)
@@ -61,5 +62,13 @@ public class TRate implements Serializable {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 }
