@@ -27,9 +27,7 @@ public class PriceSubComm implements Runnable {
     private LocalDate date;
 
     private void preRun() {
-        if (basicDate != null) {
-            date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
-        }
+        if (basicDate != null) date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
     }
 
     @Override
@@ -38,18 +36,16 @@ public class PriceSubComm implements Runnable {
 //        System.out.println("Price");
 //        System.out.println(date);
 //        System.out.println(code);
-        NBPApiFacade facade = new NBPApiFacade();
+        NBPApiFacade facade = NBPApiFacade.getInstance();
         try {
             Rate rate;
             if (date == null) {
                 rate = facade.getCurrentRate(code);
-                System.out.println(rate.getCode());
-                System.out.println(rate.getRates()[0]);
             } else {
                 rate = facade.getRate(code, date);
-                System.out.println(rate.getCode());
-                System.out.println(rate.getRates()[0]);
             }
+            System.out.println(rate.getCode());
+            System.out.println(rate.getRates()[0]);
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
