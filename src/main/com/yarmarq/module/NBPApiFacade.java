@@ -17,6 +17,21 @@ import java.util.List;
 
 // Facade - Provide a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.
 public class NBPApiFacade {
+    private volatile static NBPApiFacade instance = null;
+
+    public static NBPApiFacade getInstance() {
+        if (instance == null) {
+            synchronized (NBPApiFacade.class) {
+                if (instance == null) {
+                    instance = new NBPApiFacade();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private NBPApiFacade() {
+    }
 
     public Rate getCurrentRate(String code) throws JsonParserException, OnlineResourcesAccessException {
         // http://api.nbp.pl/api/exchangerates/rates/a/{code}/
@@ -89,6 +104,23 @@ public class NBPApiFacade {
         }
     }
 
+    public Gold getGold(LocalDate date) throws JsonParserException, OnlineResourcesAccessException {
+        // http://api.nbp.pl/api/cenyzlota
+        String url = "http://api.nbp.pl/api/cenyzlota/%s/";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, date));
+            if (fetcher.fetchResource()) {
+                Gold[] golds = mapper.readValue(fetcher.getContent(), Gold[].class);
+                return golds[0];
+            } else {
+                throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
+            }
+        } catch (IOException e) {
+            throw new JsonParserException(e);
+        }
+    }
+
     public List<Gold> getGolds(LocalDate startDate, LocalDate endDate) throws OnlineResourcesAccessException, JsonParserException {
         // http://api.nbp.pl/api/cenyzlota/{startDate}/{endDate}
         String url = "http://api.nbp.pl/api/cenyzlota/%s/%s/"; // startDate, endDate
@@ -109,6 +141,23 @@ public class NBPApiFacade {
             throw new JsonParserException(e);
         }
         return result;
+    }
+
+    public Table getTable(char table) throws JsonParserException, OnlineResourcesAccessException {
+        // http://api.nbp.pl/api/exchangerates/tables/{table}/{date}/
+        String url = "http://api.nbp.pl/api/exchangerates/tables/%c/"; // table, date
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, table));
+            if (fetcher.fetchResource()) {
+                Table[] tables = mapper.readValue(fetcher.getContent(), Table[].class);
+                return tables[0];
+            } else {
+                throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
+            }
+        } catch (IOException e) {
+            throw new JsonParserException(e);
+        }
     }
 
     public Table getTable(char table, LocalDate date) throws JsonParserException, OnlineResourcesAccessException {
@@ -163,7 +212,7 @@ public class NBPApiFacade {
     }
 
     public static void main(String[] args) {
-        NBPApiFacade facade = new NBPApiFacade();
+        NBPApiFacade facade = NBPApiFacade.getInstance();
 //        System.out.println(facade.getGold());
 //        System.out.println(facade.getCurrentRate("gbp"));
 //        System.out.println(facade.getTable("a", LocalDate.parse("2017-12-15")));
