@@ -1,19 +1,22 @@
 package com.yarmarq.serializable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yarmarq.module.DateFormatter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 
 public class Table implements Serializable {
     private String table;                   // typ tabeli
     private String no;                      // numer tabeli
-    private Date tradingDate;               // data notowania (dotyczy tabeli C)
-    private Date effectiveDate;             // data publikacji
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate tradingDate;               // data notowania (dotyczy tabeli C)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate effectiveDate;             // data publikacji
     private TRate[] rates;                  // lista kursów poszczególnych walut w tabeli
 
     public String getTable() {
@@ -32,19 +35,19 @@ public class Table implements Serializable {
         this.no = no;
     }
 
-    public Date getTradingDate() {
+    public LocalDate getTradingDate() {
         return tradingDate;
     }
 
-    public void setTradingDate(Date tradingDate) {
+    public void setTradingDate(LocalDate tradingDate) {
         this.tradingDate = tradingDate;
     }
 
-    public Date getEffectiveDate() {
+    public LocalDate getEffectiveDate() {
         return effectiveDate;
     }
 
-    public void setEffectiveDate(Date effectiveDate) {
+    public void setEffectiveDate(LocalDate effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
@@ -56,27 +59,17 @@ public class Table implements Serializable {
         this.rates = rates;
     }
 
-    public String getFormattedTradingDate() {
-        return DateFormatter.formatDate(tradingDate);
-    }
-
-    public String getFormattedEffectiveDate() {
-        return DateFormatter.formatDate(effectiveDate);
-    }
-
     @Override
     public String toString() {
-        String tdate = getFormattedTradingDate();
-        String edate = getFormattedEffectiveDate();
         StringBuilder sb = new StringBuilder();
         sb.append("> TABLE: [Table: ");
         sb.append(table);
         sb.append("] [No: ");
         sb.append(no);
         sb.append("] [Trading Date: ");
-        sb.append(tdate);
+        sb.append(tradingDate);
         sb.append("] [Effective Date: ");
-        sb.append(edate);
+        sb.append(effectiveDate);
         sb.append("]\n");
         for (TRate rate : rates) {
             sb.append(rate);
@@ -88,7 +81,7 @@ public class Table implements Serializable {
     public static void main(String[] args) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            Table[] table = mapper.readValue(new URL("http://api.nbp.pl/api/exchangerates/tables/a/2012-01-01/2012-01-31/?format=json"), Table[].class);
+            Table[] table = mapper.readValue(new URL("http://api.nbp.pl/api/exchangerates/tables/b/2012-01-01/2012-01-31/?format=json"), Table[].class);
             Arrays.asList(table).forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();

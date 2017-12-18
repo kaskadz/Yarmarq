@@ -1,8 +1,9 @@
 package com.yarmarq.subcommand;
 
-import com.yarmarq.module.DateFormatter;
 import picocli.CommandLine.*;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Command(name = "spread",
@@ -15,16 +16,21 @@ public class SpreadSubComm implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "Date to calculate spread from.")
-    private Date date;
+    private Date basicDate;
+    private LocalDate date;
 
     @Parameters(index = "1", arity = "1", paramLabel = "N",
             description = "How many currencies to find.")
     private Integer n;
 
+    private void preRun() {
+        date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
+    }
+
     @Override
     public void run() {
         System.out.println("Spread");
-        System.out.println(DateFormatter.formatDate(date));
+        System.out.println(date);
         System.out.println(n);
     }
 }

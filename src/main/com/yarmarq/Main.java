@@ -13,6 +13,7 @@ import com.yarmarq.subcommand.*;
         subcommands = {
                 PriceSubComm.class,
                 GoldSubComm.class,
+                GoldAvgSubComm.class,
                 FluctuationsSubComm.class,
                 CheapestSubComm.class,
                 SpreadSubComm.class,
@@ -35,3 +36,7 @@ public class Main implements Runnable {
         CommandLine.usage(this, System.out);
     }
 }
+//TODO: Implement subcommands.
+//TODO: Implement post validation for dates and time periods.
+//TODO: Check help metadata.
+//TODO: Write tests.
