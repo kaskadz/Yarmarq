@@ -51,11 +51,6 @@ public class TRate implements Serializable {
         this.mid = mid;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Code: %3s, Currency: %-30s, Country: %-30s, mid: %f, bid: %f, ask: %f", code, currency, country, mid, bid, ask);
-    }
-
     public String getCountry() {
         return country;
     }
@@ -70,5 +65,14 @@ public class TRate implements Serializable {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Code: %3s, Currency: %-30s, Country: %-30s, mid: %f, bid: %f, ask: %f, spread: %f", code, currency, country, mid, bid, ask, getSpread());
+    }
+
+    public double getSpread() {
+        return ask - bid;
     }
 }

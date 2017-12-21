@@ -1,10 +1,18 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.deserializable.TRate;
+import com.yarmarq.deserializable.Table;
+import com.yarmarq.exception.JsonParserException;
+import com.yarmarq.exception.OnlineResourcesAccessException;
+import com.yarmarq.module.NBPApiFacade;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.stream.Stream;
 
 @Command(name = "spread",
         description = "Finds n currencies (Table C), sorted by spread in a given day.")
@@ -13,6 +21,10 @@ public class SpreadSubComm implements Runnable {
     @Option(names = {"-h", "-?", "--help"}, usageHelp = true,
             description = "Print usage help and exit.")
     private boolean usageHelpRequested;
+
+    @Option(names = {"-d", "--desc"},
+            description = "Sorts in descending order. (Default is ascending)")
+    private boolean desc;
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "Date to calculate spread from.")
@@ -29,9 +41,25 @@ public class SpreadSubComm implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Spread");
-        System.out.println(date);
-        System.out.println(n);
+//        System.out.println("Spread");
+//        System.out.println(date);
+//        System.out.println(n);
+        preRun();
+        NBPApiFacade facade = NBPApiFacade.getInstance();
+        try {
+            Table table = facade.getTable('c', date);
+            Stream<TRate> str = Arrays.stream(table.getRates());
+            if (desc) str = str.sorted(Comparator.comparing(TRate::getSpread));
+            else str = str.sorted(Comparator.comparing(TRate::getSpread).reversed());
+            str
+                    .limit(n)
+                    .forEach(System.out::println);
+        } catch (JsonParserException e) {
+            e.printStackTrace();
+        } catch (OnlineResourcesAccessException e) {
+            System.out.println("An error occurred!");
+            System.out.println(e.getMessage());
+        }
     }
 }
-//TODO: Implement spread functionality.
+// DONE
