@@ -4,7 +4,7 @@ import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.exception.WrongTimePeriodException;
 import com.yarmarq.module.NBPApiFacade;
-import com.yarmarq.serializable.Gold;
+import com.yarmarq.deserializable.Gold;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
@@ -55,3 +55,4 @@ public class GoldAvgSubComm implements Runnable {
         }
     }
 }
+// DONE

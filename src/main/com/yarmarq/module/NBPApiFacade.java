@@ -1,10 +1,11 @@
 package com.yarmarq.module;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yarmarq.deserializable.RRate;
 import com.yarmarq.exception.*;
-import com.yarmarq.serializable.Gold;
-import com.yarmarq.serializable.Rate;
-import com.yarmarq.serializable.Table;
+import com.yarmarq.deserializable.Gold;
+import com.yarmarq.deserializable.Rate;
+import com.yarmarq.deserializable.Table;
 import javafx.util.Pair;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // Facade - Provide a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.
 public class NBPApiFacade {
@@ -33,7 +35,7 @@ public class NBPApiFacade {
     private NBPApiFacade() {
     }
 
-    public Rate getCurrentRate(String code) throws JsonParserException, OnlineResourcesAccessException {
+    public Rate getRate(String code) throws JsonParserException, OnlineResourcesAccessException {
         // http://api.nbp.pl/api/exchangerates/rates/a/{code}/
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/%s/"; // code
         ObjectMapper mapper = new ObjectMapper();
@@ -65,18 +67,18 @@ public class NBPApiFacade {
         }
     }
 
-    public List<Rate> getRates(String code, LocalDate startDate, LocalDate endDate) throws JsonParserException, OnlineResourcesAccessException {
+    public Rate getRates(String code, LocalDate startDate, LocalDate endDate) throws JsonParserException, OnlineResourcesAccessException {
         // http://api.nbp.pl/api/exchangerates/rates/a/{code}/{startDate}/{endDate}/
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/%s/%s/%s/"; // code, startDate, endDate
         ObjectMapper mapper = new ObjectMapper();
-        List<Rate> result = new LinkedList<>();
+        List<Rate> rateList = new LinkedList<>();
         List<Pair<LocalDate, LocalDate>> periods = generatePeriods(startDate, endDate, 367);
         try {
             for (Pair<LocalDate, LocalDate> period : periods) {
                 OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, code, period.getKey(), period.getValue()));
                 if (fetcher.fetchResource()) {
                     Rate rate = mapper.readValue(fetcher.getContent(), Rate.class);
-                    result.add(rate);
+                    rateList.add(rate);
                 } else {
                     throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
                 }
@@ -84,6 +86,13 @@ public class NBPApiFacade {
         } catch (IOException e) {
             throw new JsonParserException(e);
         }
+        Rate result = new Rate();
+        result.setTable(rateList.stream().map(x -> x.getTable()).distinct().filter(x -> x != null).findFirst().get());
+        result.setCountry(rateList.stream().map(x -> x.getCountry()).distinct().filter(x -> x != null).findFirst().get());
+        result.setSymbol(rateList.stream().map(x -> x.getSymbol()).distinct().filter(x -> x != null).findFirst().get());
+        result.setCurrency(rateList.stream().map(x -> x.getCurrency()).distinct().filter(x -> x != null).findFirst().get());
+        result.setCode(rateList.stream().map(x -> x.getCode()).distinct().filter(x -> x != null).findFirst().get());
+        result.setRates(rateList.stream().map(x -> x.getRates()).flatMap(x -> Arrays.stream(x)).toArray(RRate[]::new));
         return result;
     }
 
@@ -220,12 +229,12 @@ public class NBPApiFacade {
 //                .generatePeriods(LocalDate.of(2013, 1, 2), LocalDate.of(2014, 1, 5))
 //                .forEach(x -> System.out.println(String.format("%s : %s [%d]", x.getKey(), x.getValue(), ChronoUnit.DAYS.between(x.getKey(), x.getValue()))));
         try {
+//            System.out.println("=====================");
+//            facade.getGolds(LocalDate.of(2013, 1, 2), LocalDate.now()).forEach(System.out::println);
             System.out.println("=====================");
-            facade.getGolds(LocalDate.of(2013, 1, 2), LocalDate.now()).forEach(System.out::println);
-            System.out.println("=====================");
-            facade.getRates("gbp", LocalDate.of(2002, 1, 2), LocalDate.now()).forEach(System.out::println);
-            System.out.println("=====================");
-            facade.getTables('a', LocalDate.of(2002, 1, 1), LocalDate.now()).forEach(System.out::println);
+            System.out.println(facade.getRates("chf", LocalDate.of(2002, 1, 2), LocalDate.now()));
+//            System.out.println("=====================");
+//            facade.getTables('a', LocalDate.of(2002, 1, 1), LocalDate.now()).forEach(System.out::println);
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {

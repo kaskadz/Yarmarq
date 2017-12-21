@@ -1,4 +1,4 @@
-package com.yarmarq.serializable;
+package com.yarmarq.deserializable;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.yarmarq.serializable;
+package com.yarmarq.deserializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;

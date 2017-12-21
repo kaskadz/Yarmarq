@@ -1,4 +1,4 @@
-package com.yarmarq.serializable;
+package com.yarmarq.deserializable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -75,7 +75,8 @@ public class Rate implements Serializable {
         sb.append(currency);
         sb.append("] [code: ");
         sb.append(code);
-        sb.append("]\n");
+        sb.append("]");
+        sb.append("\n");
         for (RRate rate : rates) {
             sb.append(rate);
             sb.append("\n");

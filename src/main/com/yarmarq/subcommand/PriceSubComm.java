@@ -2,7 +2,7 @@ package com.yarmarq.subcommand;
 
 import com.yarmarq.exception.*;
 import com.yarmarq.module.NBPApiFacade;
-import com.yarmarq.serializable.Rate;
+import com.yarmarq.deserializable.Rate;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
@@ -37,7 +37,7 @@ public class PriceSubComm implements Runnable {
         try {
             Rate rate;
             if (date == null) {
-                rate = facade.getCurrentRate(code);
+                rate = facade.getRate(code);
             } else {
                 rate = facade.getRate(code, date);
             }
@@ -51,3 +51,4 @@ public class PriceSubComm implements Runnable {
         }
     }
 }
+// DONE
