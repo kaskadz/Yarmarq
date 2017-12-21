@@ -1,17 +1,17 @@
 package com.yarmarq.subcommand;
 
-import com.yarmarq.deserializable.RRate;
+import com.yarmarq.deserializable.Rate;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
-import com.yarmarq.deserializable.Rate;
 import javafx.util.Pair;
-import picocli.CommandLine.*;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.OptionalDouble;
 
 @Command(name = "minmax",
         description = "For a given currency in a table A prints info, when it's exchange rate was the lowest and the highest.")
