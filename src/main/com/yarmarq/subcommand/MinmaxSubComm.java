@@ -1,12 +1,17 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.deserializable.RRate;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.deserializable.Rate;
+import javafx.util.Pair;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.OptionalDouble;
 
 @Command(name = "minmax",
         description = "For a given currency in a table A prints info, when it's exchange rate was the lowest and the highest.")
@@ -27,7 +32,12 @@ public class MinmaxSubComm implements Runnable {
         NBPApiFacade facade = NBPApiFacade.getInstance();
         try {
             Rate rates = facade.getRates(code, LocalDate.of(2002, 1, 2), LocalDate.now());
-            System.out.println(rates);
+            Pair<LocalDate, Double> minn = Arrays.stream(rates.getRates())
+                    .map(x -> new Pair<>(x.getEffectiveDate(), x.getMid()))
+                    .min(Comparator.comparing(Pair::getValue))
+                    .get();
+            Pair<LocalDate, Double> maxx = Arrays.stream(rates.getRates()).map(x -> new Pair<>(x.getEffectiveDate(), x.getMid())).max(Comparator.comparing(Pair::getValue)).get();
+            System.out.printf("Currency %s had the lowest exchange rate on %s, which was %f and the highest exchange rate on %s, which was %f.", rates.getCurrency(), minn.getKey(), minn.getValue(), maxx.getKey(), maxx.getValue());
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
@@ -35,5 +45,4 @@ public class MinmaxSubComm implements Runnable {
         }
     }
 }
-//TODO: Consider modifying NBPApiFacade getRates(...) method.
-//TODO: Implement minmax functionality.
+// DONE
