@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.CurrencyCodeTypeConverter;
 import com.yarmarq.deserializable.Rate;
 import com.yarmarq.exception.JsonParserException;
@@ -17,17 +18,19 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
 
-@Command(name = "minmax",
-        description = "For a given currency in a table A prints info, when it's exchange rate was the lowest and the highest.")
-public class MinmaxSubComm implements Runnable {
+@Command(
+        name = "minmax",
+        description = "For a given currency in a table A prints info, when it's exchange rate was the lowest and the highest."
+)
+public class MinmaxSubComm extends AbstractCommand implements Runnable {
 
-    @Option(names = {"-h", "-?", "--help"}, usageHelp = true,
-            description = "Print usage help and exit.")
-    private boolean usageHelpRequested;
-
-    @Parameters(index = "0", arity = "1", paramLabel = "CODE",
+    @Parameters(
+            index = "0",
+            arity = "1",
+            paramLabel = "CODE",
             description = "Currency code.",
-            converter = CurrencyCodeTypeConverter.class)
+            converter = CurrencyCodeTypeConverter.class
+    )
     private String code;
 
     @Override

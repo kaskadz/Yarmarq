@@ -5,11 +5,11 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import com.yarmarq.subcommand.*;
 
-@Command(name = "yarmarq", sortOptions = false,
-        header = "%nYarmarq - simple access to NBP.pl resources.%n",
-        description = "Provides an interface to Polish NBP api.%n",
-        footer = "%nAuthor: Kasper Kądzielawa",
-        optionListHeading = "Options:\n",
+@Command(
+        name = "yarmarq", sortOptions = false,
+        header = "Yarmarq - simple access to NBP.pl resources.",
+        description = "Provides an interface to Polish NBP api.",
+        footer = "\nAuthor: Kasper Kądzielawa",
         subcommands = {
                 PriceSubComm.class,
                 GoldSubComm.class,
@@ -19,12 +19,9 @@ import com.yarmarq.subcommand.*;
                 SpreadSubComm.class,
                 MinmaxSubComm.class,
                 GraphSubComm.class,
-        })
-public class Main implements Runnable {
-
-    @Option(names = {"-h", "-?", "--help"}, usageHelp = true,
-            description = "Print usage help and exit.")
-    private boolean usageHelpRequested;
+        }
+)
+public class Main extends AbstractCommand implements Runnable {
 
     public static void main(String[] args) {
         CommandLine.run(new Main(), System.out, args);

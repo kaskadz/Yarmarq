@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.GoldDatePeriodTypeConverter;
 import com.yarmarq.converter.GoldLocalDateTypeConverter;
 import com.yarmarq.exception.DateFromTheFutureException;
@@ -14,17 +15,19 @@ import picocli.CommandLine.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Command(name = "gold-avg",
-        description = "Calculates average price of gold in a given period of time.")
-public class GoldAvgSubComm implements Runnable {
+@Command(
+        name = "gold-avg",
+        description = "Calculates average price of gold in a given period of time."
+)
+public class GoldAvgSubComm extends AbstractCommand implements Runnable {
 
-    @Option(names = {"-h", "-?", "--help"}, usageHelp = true,
-            description = "Print usage help and exit.")
-    private boolean usageHelpRequested;
-
-    @Parameters(index = "0", arity = "1", paramLabel = "TIME_PERIOD",
+    @Parameters(
+            index = "0",
+            arity = "1",
+            paramLabel = "TIME_PERIOD",
             description = "Time period in yyyy-MM-dd:yyyy-MM-dd format.",
-            converter = GoldDatePeriodTypeConverter.class)
+            converter = GoldDatePeriodTypeConverter.class
+    )
     private DatePeriod period;
 
     @Override

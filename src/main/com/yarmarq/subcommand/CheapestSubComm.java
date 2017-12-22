@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.RateLocalDateTypeConverter;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
@@ -12,17 +13,19 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
 
-@Command(name = "cheapest",
-        description = "Finds currency (Table C), that was had the smallest buying rate in a given day.")
-public class CheapestSubComm implements Runnable {
+@Command(
+        name = "cheapest",
+        description = "Finds currency (Table C), that was had the smallest buying rate in a given day."
+)
+public class CheapestSubComm extends AbstractCommand implements Runnable {
 
-    @Option(names = {"-h", "-?", "--help"}, usageHelp = true,
-            description = "Print usage help and exit.")
-    private boolean usageHelpRequested;
-
-    @Parameters(index = "0", arity = "0..1", paramLabel = "DATE",
+    @Parameters(
+            index = "0",
+            arity = "0..1",
+            paramLabel = "DATE",
             description = "Date when to look for currency with the cheapest buying rate.",
-            converter = RateLocalDateTypeConverter.class)
+            converter = RateLocalDateTypeConverter.class
+    )
     private LocalDate date;
 
     @Override

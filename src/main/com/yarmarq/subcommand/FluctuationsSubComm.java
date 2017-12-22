@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.RateLocalDateTypeConverter;
 import com.yarmarq.deserializable.TRate;
 import com.yarmarq.deserializable.Table;
@@ -13,17 +14,19 @@ import picocli.CommandLine.*;
 import java.time.LocalDate;
 import java.util.*;
 
-@Command(name = "fluctuations",
-        description = "Finds a currency in table A, which exchange rate, from a given date, fluctuated the most.")
-public class FluctuationsSubComm implements Runnable {
+@Command(
+        name = "fluctuations",
+        description = "Finds a currency in table A, which exchange rate, from a given date, fluctuated the most."
+)
+public class FluctuationsSubComm extends AbstractCommand implements Runnable {
 
-    @Option(names = {"-h", "-?", "--help"}, usageHelp = true,
-            description = "Print usage help and exit.")
-    private boolean usageHelpRequested;
-
-    @Parameters(index = "0", arity = "1", paramLabel = "DATE",
+    @Parameters(
+            index = "0",
+            arity = "1",
+            paramLabel = "DATE",
             description = "Date, from which to calculate fluctuations.",
-            converter = RateLocalDateTypeConverter.class)
+            converter = RateLocalDateTypeConverter.class
+    )
     private LocalDate date;
 
     @Override

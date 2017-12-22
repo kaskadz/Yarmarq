@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.RateLocalDateTypeConverter;
 import com.yarmarq.deserializable.TRate;
 import com.yarmarq.deserializable.Table;
@@ -13,25 +14,33 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-@Command(name = "spread",
-        description = "Finds N currencies (Table C), sorted by spread in a given day.")
-public class SpreadSubComm implements Runnable {
+@Command(
+        name = "spread",
+        description = "Finds N currencies (Table C), sorted by spread in a given day."
+)
+public class SpreadSubComm extends AbstractCommand implements Runnable {
 
-    @Option(names = {"-h", "-?", "--help"}, usageHelp = true,
-            description = "Print usage help and exit.")
-    private boolean usageHelpRequested;
-
-    @Option(names = {"-d", "--desc"},
-            description = "Sorts in descending order. (Default is ascending)")
+    @Option(
+            names = {"-d", "--desc"},
+            description = "Sorts in descending order. (Default is ascending)"
+    )
     private boolean desc;
 
-    @Parameters(index = "0", arity = "1", paramLabel = "DATE",
+    @Parameters(
+            index = "0",
+            arity = "1",
+            paramLabel = "DATE",
             description = "Date to calculate spread from.",
-            converter = RateLocalDateTypeConverter.class)
+            converter = RateLocalDateTypeConverter.class
+    )
     private LocalDate date;
 
-    @Parameters(index = "1", arity = "1", paramLabel = "N",
-            description = "How many currencies to find.")
+    @Parameters(
+            index = "1",
+            arity = "1",
+            paramLabel = "N",
+            description = "How many currencies to find."
+    )
     private Integer n;
 
     @Override

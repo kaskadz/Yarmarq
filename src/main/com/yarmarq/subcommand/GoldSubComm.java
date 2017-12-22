@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.GoldLocalDateTypeConverter;
 import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
@@ -14,17 +15,19 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-@Command(name = "gold",
-        description = "Prints gold price in a given day.")
-public class GoldSubComm implements Runnable {
+@Command(
+        name = "gold",
+        description = "Prints gold price in a given day."
+)
+public class GoldSubComm extends AbstractCommand implements Runnable {
 
-    @Option(names = {"-h", "-?", "--help"}, usageHelp = true,
-            description = "Print usage help and exit.")
-    private boolean usageHelpRequested;
-
-    @Parameters(index = "0", arity = "0..1", paramLabel = "DATE",
+    @Parameters(
+            index = "0",
+            arity = "0..1",
+            paramLabel = "DATE",
             description = "Date of gold price.",
-            converter = GoldLocalDateTypeConverter.class)
+            converter = GoldLocalDateTypeConverter.class
+    )
     private LocalDate date;
 
     @Override
