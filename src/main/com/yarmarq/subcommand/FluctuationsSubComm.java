@@ -6,6 +6,8 @@ import com.yarmarq.deserializable.Table;
 import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
+import com.yarmarq.exception.WrongDatePeriodException;
+import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
 import javafx.scene.control.Tab;
 import picocli.CommandLine.*;
@@ -32,7 +34,7 @@ public class FluctuationsSubComm implements Runnable {
     public void run() {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
-            List<Table> tables = facade.getTables('a', date, LocalDate.now());
+            List<Table> tables = facade.getTables('a', new DatePeriod(date, LocalDate.now()));
             Map<String, Double> mins = new HashMap<>();
             Map<String, Double> maxs = new HashMap<>();
             tables
@@ -65,10 +67,10 @@ public class FluctuationsSubComm implements Runnable {
                     .get();
             System.out.printf("Currency %s (%s) from %s fluctuated the most since %s. The amplitude was %f.", currency.getCurrency(), entry.getKey(), currency.getCountry(), date, entry.getValue());
         } catch (OnlineResourcesAccessException e) {
-            e.printStackTrace();
-        } catch (JsonParserException e) {
             System.out.println("An error occurred!");
             System.out.println(e.getMessage());
+        } catch (JsonParserException | WrongDatePeriodException e) {
+            e.printStackTrace();
         }
     }
 }

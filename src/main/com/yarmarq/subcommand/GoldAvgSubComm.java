@@ -1,17 +1,17 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.converter.GoldDatePeriodTypeConverter;
 import com.yarmarq.converter.GoldLocalDateTypeConverter;
 import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
-import com.yarmarq.exception.WrongTimePeriodException;
+import com.yarmarq.exception.WrongDatePeriodException;
+import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.deserializable.Gold;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 @Command(name = "gold-avg",
@@ -22,37 +22,22 @@ public class GoldAvgSubComm implements Runnable {
             description = "Print usage help and exit.")
     private boolean usageHelpRequested;
 
-    @Parameters(index = "0", arity = "1", paramLabel = "START_DATE",
-            description = "Beginning of time period.",
-            converter = GoldLocalDateTypeConverter.class)
-    private LocalDate startDate;
-
-    @Parameters(index = "1", arity = "1", paramLabel = "END_DATE",
-            description = "End of time period.",
-            converter = GoldLocalDateTypeConverter.class)
-    private LocalDate endDate;
-
-    private void preRun() throws WrongTimePeriodException, DateFromTheFutureException {
-        if (startDate.isAfter(endDate)) throw new WrongTimePeriodException();
-        if (endDate.isAfter(LocalDate.now())) throw new DateFromTheFutureException(endDate);
-    }
+    @Parameters(index = "0", arity = "1", paramLabel = "TIME_PERIOD",
+            description = "Time period in yyyy-MM-dd:yyyy-MM-dd format.",
+            converter = GoldDatePeriodTypeConverter.class)
+    private DatePeriod period;
 
     @Override
     public void run() {
         try {
-            preRun();
             NBPApiFacade facade = NBPApiFacade.getInstance();
-            List<Gold> golds = facade.getGolds(startDate, endDate);
+            List<Gold> golds = facade.getGolds(period);
             Double avg = golds.stream().mapToDouble(x -> x.getPrice()).average().getAsDouble();
-            System.out.printf("Gold average price from %s to %s is: %f", startDate, endDate, avg);
-        } catch (WrongTimePeriodException e) {
-            System.out.println(e.getMessage());
+            System.out.printf("Gold average price from %s to %s is: %f", period.getStartDate(), period.getEndDate(), avg);
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
             System.out.println("An error occurred!");
-            System.out.println(e.getMessage());
-        } catch (DateFromTheFutureException e) {
             System.out.println(e.getMessage());
         }
     }

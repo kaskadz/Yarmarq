@@ -67,18 +67,18 @@ public class NBPApiFacade {
         }
     }
 
-    public Rate getRates(String code, LocalDate startDate, LocalDate endDate) throws JsonParserException, OnlineResourcesAccessException {
+    public Rate getRates(String code, DatePeriod period) throws JsonParserException, OnlineResourcesAccessException {
         // http://api.nbp.pl/api/exchangerates/rates/a/{code}/{startDate}/{endDate}/
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/%s/%s/%s/"; // code, startDate, endDate
         ObjectMapper mapper = new ObjectMapper();
         List<Rate> rateList = new LinkedList<>();
-        List<Pair<LocalDate, LocalDate>> periods = generatePeriods(startDate, endDate, 367);
+        List<DatePeriod> periods = period.split(367);
         try {
             String testUrl = "http://api.nbp.pl/api/exchangerates/rates/a/%s/"; // code, date
             OnlineResourceFetcher preFetcher = new OnlineResourceFetcher(String.format(testUrl, code));
             boolean fetchable = preFetcher.fetchResource();
-            for (Pair<LocalDate, LocalDate> period : periods) {
-                OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, code, period.getKey(), period.getValue()));
+            for (DatePeriod per : periods) {
+                OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, code, per.getStartDate(), per.getEndDate()));
                 if (fetcher.fetchResource()) {
                     Rate rate = mapper.readValue(fetcher.getContent(), Rate.class);
                     rateList.add(rate);
@@ -134,15 +134,15 @@ public class NBPApiFacade {
         }
     }
 
-    public List<Gold> getGolds(LocalDate startDate, LocalDate endDate) throws OnlineResourcesAccessException, JsonParserException {
+    public List<Gold> getGolds(DatePeriod period) throws OnlineResourcesAccessException, JsonParserException {
         // http://api.nbp.pl/api/cenyzlota/{startDate}/{endDate}
         String url = "http://api.nbp.pl/api/cenyzlota/%s/%s/"; // startDate, endDate
         ObjectMapper mapper = new ObjectMapper();
         List<Gold> result = new LinkedList<>();
-        List<Pair<LocalDate, LocalDate>> periods = generatePeriods(startDate, endDate, 367);
+        List<DatePeriod> periods = period.split(367);
         try {
-            for (Pair<LocalDate, LocalDate> period : periods) {
-                OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, period.getKey(), period.getValue()));
+            for (DatePeriod per : periods) {
+                OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, per.getStartDate(), per.getEndDate()));
                 if (fetcher.fetchResource()) {
                     Gold[] golds = mapper.readValue(fetcher.getContent(), Gold[].class);
                     result.addAll(Arrays.asList(golds));
@@ -190,15 +190,15 @@ public class NBPApiFacade {
         }
     }
 
-    public List<Table> getTables(char table, LocalDate startDate, LocalDate endDate) throws OnlineResourcesAccessException, JsonParserException {
+    public List<Table> getTables(char table, DatePeriod period) throws OnlineResourcesAccessException, JsonParserException {
         // http://api.nbp.pl/api/exchangerates/tables/{table}/{startDate}/{endDate}/
         String url = "http://api.nbp.pl/api/exchangerates/tables/%c/%s/%s/"; // table, startDate, endDate
         ObjectMapper mapper = new ObjectMapper();
         List<Table> result = new LinkedList<>();
-        List<Pair<LocalDate, LocalDate>> periods = generatePeriods(startDate, endDate, 93);
+        List<DatePeriod> periods = period.split(93);
         try {
-            for (Pair<LocalDate, LocalDate> period : periods) {
-                OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, table, period.getKey(), period.getValue()));
+            for (DatePeriod per : periods) {
+                OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, table, per.getStartDate(), per.getEndDate()));
                 if (fetcher.fetchResource()) {
                     Table[] tables = mapper.readValue(fetcher.getContent(), Table[].class);
                     result.addAll(Arrays.asList(tables));
@@ -212,18 +212,6 @@ public class NBPApiFacade {
         return result;
     }
 
-    private List<Pair<LocalDate, LocalDate>> generatePeriods(LocalDate startDate, LocalDate endDate, int maxPeriodDays) {
-        List<Pair<LocalDate, LocalDate>> result = new LinkedList<>();
-        Period period = Period.ofDays(maxPeriodDays);
-        while (ChronoUnit.DAYS.between(startDate, endDate) > maxPeriodDays) {
-            LocalDate tempEndDate = startDate.plus(period);
-            result.add(new Pair<>(startDate, tempEndDate));
-            startDate = tempEndDate.plusDays(1);
-        }
-        result.add(new Pair<>(startDate, endDate));
-        return result;
-    }
-
     public static void main(String[] args) {
         NBPApiFacade facade = NBPApiFacade.getInstance();
 //        System.out.println(facade.getGold());
@@ -233,13 +221,13 @@ public class NBPApiFacade {
 //                .generatePeriods(LocalDate.of(2013, 1, 2), LocalDate.of(2014, 1, 5))
 //                .forEach(x -> System.out.println(String.format("%s : %s [%d]", x.getKey(), x.getValue(), ChronoUnit.DAYS.between(x.getKey(), x.getValue()))));
         try {
-//            System.out.println("=====================");
-//            facade.getGolds(LocalDate.of(2013, 1, 2), LocalDate.now()).forEach(System.out::println);
             System.out.println("=====================");
-            System.out.println(facade.getRates("chf", LocalDate.of(2002, 1, 2), LocalDate.now()));
-//            System.out.println("=====================");
-//            facade.getTables('a', LocalDate.of(2002, 1, 1), LocalDate.now()).forEach(System.out::println);
-        } catch (JsonParserException e) {
+            facade.getGolds(new DatePeriod(LocalDate.of(2013, 1, 2), LocalDate.now())).forEach(System.out::println);
+            System.out.println("=====================");
+            System.out.println(facade.getRates("chf", new DatePeriod(LocalDate.of(2002, 1, 2), LocalDate.now())));
+            System.out.println("=====================");
+            facade.getTables('a', new DatePeriod(LocalDate.of(2002, 1, 1), LocalDate.now())).forEach(System.out::println);
+        } catch (JsonParserException | WrongDatePeriodException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
             e.getMessage();
