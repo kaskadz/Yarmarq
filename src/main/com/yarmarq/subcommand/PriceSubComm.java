@@ -1,7 +1,7 @@
 package com.yarmarq.subcommand;
 
 import com.yarmarq.converter.CurrencyCodeTypeConverter;
-import com.yarmarq.converter.RatesLocalDateTypeConverter;
+import com.yarmarq.converter.RateLocalDateTypeConverter;
 import com.yarmarq.exception.*;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.deserializable.Rate;
@@ -24,7 +24,7 @@ public class PriceSubComm implements Runnable {
 
     @Parameters(index = "1", arity = "0..1", paramLabel = "DATE",
             description = "Exchange rate publication date.",
-            converter = RatesLocalDateTypeConverter.class)
+            converter = RateLocalDateTypeConverter.class)
     private LocalDate date;
 
     @Override

@@ -1,19 +1,16 @@
 package com.yarmarq.subcommand;
 
-import com.yarmarq.converter.RatesLocalDateTypeConverter;
+import com.yarmarq.converter.RateLocalDateTypeConverter;
 import com.yarmarq.deserializable.TRate;
 import com.yarmarq.deserializable.Table;
-import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.stream.Stream;
 
 @Command(name = "spread",
@@ -30,7 +27,7 @@ public class SpreadSubComm implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "Date to calculate spread from.",
-            converter = RatesLocalDateTypeConverter.class)
+            converter = RateLocalDateTypeConverter.class)
     private LocalDate date;
 
     @Parameters(index = "1", arity = "1", paramLabel = "N",
