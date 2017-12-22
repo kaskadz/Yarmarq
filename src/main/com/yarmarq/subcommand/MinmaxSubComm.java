@@ -41,6 +41,7 @@ public class MinmaxSubComm implements Runnable {
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
+            System.out.println("An error occurred!");
             System.out.println(e.getMessage());
         }
     }

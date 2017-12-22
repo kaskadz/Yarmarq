@@ -73,6 +73,7 @@ public class TRate implements Serializable {
     }
 
     public double getSpread() {
+        if (ask == null || bid == null) return 0;
         return ask - bid;
     }
 }

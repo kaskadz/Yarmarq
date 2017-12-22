@@ -70,7 +70,10 @@ public class Table implements Serializable {
         sb.append(tradingDate);
         sb.append("] [Effective Date: ");
         sb.append(effectiveDate);
-        sb.append("]\n");
+        sb.append("] [Rates: ");
+        sb.append(rates.length);
+        sb.append("]");
+        sb.append("\n");
         for (TRate rate : rates) {
             sb.append(rate);
             sb.append("\n");
@@ -86,5 +89,9 @@ public class Table implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getRatesCount() {
+        return rates.length;
     }
 }
