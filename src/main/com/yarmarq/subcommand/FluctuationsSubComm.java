@@ -2,6 +2,7 @@ package com.yarmarq.subcommand;
 
 import com.yarmarq.deserializable.TRate;
 import com.yarmarq.deserializable.Table;
+import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
@@ -26,15 +27,16 @@ public class FluctuationsSubComm implements Runnable {
     private Date basicDate;
     private LocalDate date;
 
-    private void preRun() {
+    private void preRun() throws DateFromTheFutureException {
         date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
+        if (date.isAfter(LocalDate.now())) throw new DateFromTheFutureException(date);
     }
 
     @Override
     public void run() {
-        preRun();
-        NBPApiFacade facade = NBPApiFacade.getInstance();
         try {
+            preRun();
+            NBPApiFacade facade = NBPApiFacade.getInstance();
             List<Table> tables = facade.getTables('a', date, LocalDate.now());
             Map<String, Double> mins = new HashMap<>();
             Map<String, Double> maxs = new HashMap<>();
@@ -71,6 +73,8 @@ public class FluctuationsSubComm implements Runnable {
             e.printStackTrace();
         } catch (JsonParserException e) {
             System.out.println("An error occurred!");
+            System.out.println(e.getMessage());
+        } catch (DateFromTheFutureException e) {
             System.out.println(e.getMessage());
         }
     }

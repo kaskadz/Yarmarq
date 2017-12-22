@@ -74,13 +74,17 @@ public class NBPApiFacade {
         List<Rate> rateList = new LinkedList<>();
         List<Pair<LocalDate, LocalDate>> periods = generatePeriods(startDate, endDate, 367);
         try {
+            String testUrl = "http://api.nbp.pl/api/exchangerates/rates/a/%s/"; // code, date
+            OnlineResourceFetcher preFetcher = new OnlineResourceFetcher(String.format(testUrl, code));
+            boolean fetchable = preFetcher.fetchResource();
             for (Pair<LocalDate, LocalDate> period : periods) {
                 OnlineResourceFetcher fetcher = new OnlineResourceFetcher(String.format(url, code, period.getKey(), period.getValue()));
                 if (fetcher.fetchResource()) {
                     Rate rate = mapper.readValue(fetcher.getContent(), Rate.class);
                     rateList.add(rate);
                 } else {
-                    throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
+                    if (!fetchable)
+                        throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
                 }
             }
         } catch (IOException e) {

@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.exception.WrongTimePeriodException;
@@ -30,11 +31,12 @@ public class GoldAvgSubComm implements Runnable {
     private Date basicEndDate;
     private LocalDate endDate;
 
-    private void preRun() throws WrongTimePeriodException {
+    private void preRun() throws WrongTimePeriodException, DateFromTheFutureException {
         if (basicStartDate != null && basicEndDate != null) {
             startDate = LocalDate.ofInstant(basicStartDate.toInstant(), ZoneId.systemDefault());
             endDate = LocalDate.ofInstant(basicEndDate.toInstant(), ZoneId.systemDefault());
             if (startDate.isAfter(endDate)) throw new WrongTimePeriodException();
+            if (endDate.isAfter(LocalDate.now())) throw new DateFromTheFutureException(endDate);
         }
     }
 
@@ -51,6 +53,9 @@ public class GoldAvgSubComm implements Runnable {
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
+            System.out.println("An error occurred!");
+            System.out.println(e.getMessage());
+        } catch (DateFromTheFutureException e) {
             System.out.println(e.getMessage());
         }
     }

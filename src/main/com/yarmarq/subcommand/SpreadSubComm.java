@@ -2,6 +2,7 @@ package com.yarmarq.subcommand;
 
 import com.yarmarq.deserializable.TRate;
 import com.yarmarq.deserializable.Table;
+import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
@@ -15,7 +16,7 @@ import java.util.Date;
 import java.util.stream.Stream;
 
 @Command(name = "spread",
-        description = "Finds n currencies (Table C), sorted by spread in a given day.")
+        description = "Finds N currencies (Table C), sorted by spread in a given day.")
 public class SpreadSubComm implements Runnable {
 
     @Option(names = {"-h", "-?", "--help"}, usageHelp = true,
@@ -35,18 +36,16 @@ public class SpreadSubComm implements Runnable {
             description = "How many currencies to find.")
     private Integer n;
 
-    private void preRun() {
+    private void preRun() throws DateFromTheFutureException {
         date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
+        if (date.isAfter(LocalDate.now())) throw new DateFromTheFutureException(date);
     }
 
     @Override
     public void run() {
-//        System.out.println("Spread");
-//        System.out.println(date);
-//        System.out.println(n);
-        preRun();
-        NBPApiFacade facade = NBPApiFacade.getInstance();
         try {
+            preRun();
+            NBPApiFacade facade = NBPApiFacade.getInstance();
             Table table = facade.getTable('c', date);
             Stream<TRate> str = Arrays.stream(table.getRates());
             if (desc) str = str.sorted(Comparator.comparing(TRate::getSpread));
@@ -58,6 +57,8 @@ public class SpreadSubComm implements Runnable {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
             System.out.println("An error occurred!");
+            System.out.println(e.getMessage());
+        } catch (DateFromTheFutureException e) {
             System.out.println(e.getMessage());
         }
     }

@@ -3,6 +3,7 @@ package com.yarmarq.subcommand;
 import com.yarmarq.deserializable.Rate;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
+import com.yarmarq.exception.WrongCurrencyCodeException;
 import com.yarmarq.module.NBPApiFacade;
 import javafx.util.Pair;
 import picocli.CommandLine.Command;
@@ -25,12 +26,15 @@ public class MinmaxSubComm implements Runnable {
             description = "Currency code.")
     private String code;
 
+    private void preRun() throws WrongCurrencyCodeException {
+        if (!code.matches("^[A-Za-z]{3}$")) throw new WrongCurrencyCodeException();
+    }
+
     @Override
     public void run() {
-        System.out.println("Minmax");
-        System.out.println(code);
-        NBPApiFacade facade = NBPApiFacade.getInstance();
         try {
+            preRun();
+            NBPApiFacade facade = NBPApiFacade.getInstance();
             Rate rates = facade.getRates(code, LocalDate.of(2002, 1, 2), LocalDate.now());
             Pair<LocalDate, Double> minn = Arrays.stream(rates.getRates())
                     .map(x -> new Pair<>(x.getEffectiveDate(), x.getMid()))
@@ -42,6 +46,8 @@ public class MinmaxSubComm implements Runnable {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
             System.out.println("An error occurred!");
+            System.out.println(e.getMessage());
+        } catch (WrongCurrencyCodeException e) {
             System.out.println(e.getMessage());
         }
     }

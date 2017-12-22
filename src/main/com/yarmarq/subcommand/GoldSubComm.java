@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
@@ -25,16 +26,19 @@ public class GoldSubComm implements Runnable {
     private Date basicDate;
     private LocalDate date;
 
-    private void preRun() {
-        if (basicDate != null) date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
+    private void preRun() throws DateFromTheFutureException {
+        if (basicDate != null) {
+            date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
+            if (date.isAfter(LocalDate.now())) throw new DateFromTheFutureException(date);
+        }
     }
 
     @Override
     public void run() {
-        preRun();
-        NBPApiFacade facade = NBPApiFacade.getInstance();
-        Gold gold;
         try {
+            preRun();
+            NBPApiFacade facade = NBPApiFacade.getInstance();
+            Gold gold;
             if (date == null) {
                 gold = facade.getGold();
             } else {
@@ -44,6 +48,9 @@ public class GoldSubComm implements Runnable {
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
+            System.out.println("An error occurred!");
+            System.out.println(e.getMessage());
+        } catch (DateFromTheFutureException e) {
             System.out.println(e.getMessage());
         }
     }

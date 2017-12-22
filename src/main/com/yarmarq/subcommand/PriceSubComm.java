@@ -26,15 +26,19 @@ public class PriceSubComm implements Runnable {
     private Date basicDate;
     private LocalDate date;
 
-    private void preRun() {
-        if (basicDate != null) date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
+    private void preRun() throws DateFromTheFutureException, WrongCurrencyCodeException {
+        if (!code.matches("^[A-Za-z]{3}$")) throw new WrongCurrencyCodeException();
+        if (basicDate != null) {
+            date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
+            if (date.isAfter(LocalDate.now())) throw new DateFromTheFutureException(date);
+        }
     }
 
     @Override
     public void run() {
-        preRun();
-        NBPApiFacade facade = NBPApiFacade.getInstance();
         try {
+            preRun();
+            NBPApiFacade facade = NBPApiFacade.getInstance();
             Rate rate;
             if (date == null) {
                 rate = facade.getRate(code);
@@ -47,6 +51,8 @@ public class PriceSubComm implements Runnable {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
             System.out.println("An error occurred!");
+            System.out.println(e.getMessage());
+        } catch (DateFromTheFutureException | WrongCurrencyCodeException e) {
             System.out.println(e.getMessage());
         }
     }
