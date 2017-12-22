@@ -1,7 +1,6 @@
 package com.yarmarq.subcommand;
 
-import com.yarmarq.converter.RatesLocalDateTypeConverter;
-import com.yarmarq.exception.DateFromTheFutureException;
+import com.yarmarq.converter.RateLocalDateTypeConverter;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
@@ -10,10 +9,8 @@ import com.yarmarq.deserializable.Table;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 
 @Command(name = "cheapest",
         description = "Finds currency (Table C), that was had the smallest buying rate in a given day.")
@@ -25,7 +22,7 @@ public class CheapestSubComm implements Runnable {
 
     @Parameters(index = "0", arity = "0..1", paramLabel = "DATE",
             description = "Date when to look for currency with the cheapest buying rate.",
-            converter = RatesLocalDateTypeConverter.class)
+            converter = RateLocalDateTypeConverter.class)
     private LocalDate date;
 
     @Override

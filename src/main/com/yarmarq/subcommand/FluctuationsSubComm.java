@@ -1,21 +1,17 @@
 package com.yarmarq.subcommand;
 
-import com.yarmarq.converter.RatesLocalDateTypeConverter;
+import com.yarmarq.converter.RateLocalDateTypeConverter;
 import com.yarmarq.deserializable.TRate;
 import com.yarmarq.deserializable.Table;
-import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.exception.WrongDatePeriodException;
 import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
-import javafx.scene.control.Tab;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Stream;
 
 @Command(name = "fluctuations",
         description = "Finds a currency in table A, which exchange rate, from a given date, fluctuated the most.")
@@ -27,7 +23,7 @@ public class FluctuationsSubComm implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "Date, from which to calculate fluctuations.",
-            converter = RatesLocalDateTypeConverter.class)
+            converter = RateLocalDateTypeConverter.class)
     private LocalDate date;
 
     @Override

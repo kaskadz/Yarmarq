@@ -7,7 +7,7 @@ import picocli.CommandLine.ITypeConverter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class RatesLocalDateTypeConverter implements ITypeConverter<LocalDate> {
+public class RateLocalDateTypeConverter implements ITypeConverter<LocalDate> {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final LocalDate refDate = LocalDate.of(2002, 1, 2);
 
