@@ -37,6 +37,5 @@ public class Main implements Runnable {
     }
 }
 //TODO: Implement subcommands.
-//TODO: Implement post validation for dates and time periods.
 //TODO: Check help metadata.
 //TODO: Write tests.
