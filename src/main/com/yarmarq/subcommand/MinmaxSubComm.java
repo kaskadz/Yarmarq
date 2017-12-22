@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.converter.CurrencyCodeTypeConverter;
 import com.yarmarq.deserializable.Rate;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
@@ -23,17 +24,13 @@ public class MinmaxSubComm implements Runnable {
     private boolean usageHelpRequested;
 
     @Parameters(index = "0", arity = "1", paramLabel = "CODE",
-            description = "Currency code.")
+            description = "Currency code.",
+            converter = CurrencyCodeTypeConverter.class)
     private String code;
-
-    private void preRun() throws WrongCurrencyCodeException {
-        if (!code.matches("^[A-Za-z]{3}$")) throw new WrongCurrencyCodeException();
-    }
 
     @Override
     public void run() {
         try {
-            preRun();
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Rate rates = facade.getRates(code, LocalDate.of(2002, 1, 2), LocalDate.now());
             Pair<LocalDate, Double> minn = Arrays.stream(rates.getRates())
@@ -46,8 +43,6 @@ public class MinmaxSubComm implements Runnable {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
             System.out.println("An error occurred!");
-            System.out.println(e.getMessage());
-        } catch (WrongCurrencyCodeException e) {
             System.out.println(e.getMessage());
         }
     }

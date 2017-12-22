@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.converter.GoldLocalDateTypeConverter;
 import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
@@ -22,21 +23,13 @@ public class GoldSubComm implements Runnable {
     private boolean usageHelpRequested;
 
     @Parameters(index = "0", arity = "0..1", paramLabel = "DATE",
-            description = "Date of gold price.")
-    private Date basicDate;
+            description = "Date of gold price.",
+            converter = GoldLocalDateTypeConverter.class)
     private LocalDate date;
-
-    private void preRun() throws DateFromTheFutureException {
-        if (basicDate != null) {
-            date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
-            if (date.isAfter(LocalDate.now())) throw new DateFromTheFutureException(date);
-        }
-    }
 
     @Override
     public void run() {
         try {
-            preRun();
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Gold gold;
             if (date == null) {
@@ -49,8 +42,6 @@ public class GoldSubComm implements Runnable {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
             System.out.println("An error occurred!");
-            System.out.println(e.getMessage());
-        } catch (DateFromTheFutureException e) {
             System.out.println(e.getMessage());
         }
     }

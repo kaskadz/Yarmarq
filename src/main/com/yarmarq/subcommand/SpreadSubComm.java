@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.converter.RatesLocalDateTypeConverter;
 import com.yarmarq.deserializable.TRate;
 import com.yarmarq.deserializable.Table;
 import com.yarmarq.exception.DateFromTheFutureException;
@@ -28,23 +29,17 @@ public class SpreadSubComm implements Runnable {
     private boolean desc;
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
-            description = "Date to calculate spread from.")
-    private Date basicDate;
+            description = "Date to calculate spread from.",
+            converter = RatesLocalDateTypeConverter.class)
     private LocalDate date;
 
     @Parameters(index = "1", arity = "1", paramLabel = "N",
             description = "How many currencies to find.")
     private Integer n;
 
-    private void preRun() throws DateFromTheFutureException {
-        date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
-        if (date.isAfter(LocalDate.now())) throw new DateFromTheFutureException(date);
-    }
-
     @Override
     public void run() {
         try {
-            preRun();
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Table table = facade.getTable('c', date);
             Stream<TRate> str = Arrays.stream(table.getRates());
@@ -57,8 +52,6 @@ public class SpreadSubComm implements Runnable {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
             System.out.println("An error occurred!");
-            System.out.println(e.getMessage());
-        } catch (DateFromTheFutureException e) {
             System.out.println(e.getMessage());
         }
     }

@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.converter.GoldLocalDateTypeConverter;
 import com.yarmarq.exception.DateFromTheFutureException;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
@@ -22,22 +23,18 @@ public class GoldAvgSubComm implements Runnable {
     private boolean usageHelpRequested;
 
     @Parameters(index = "0", arity = "1", paramLabel = "START_DATE",
-            description = "Beginning of time period.")
-    private Date basicStartDate;
+            description = "Beginning of time period.",
+            converter = GoldLocalDateTypeConverter.class)
     private LocalDate startDate;
 
     @Parameters(index = "1", arity = "1", paramLabel = "END_DATE",
-            description = "End of time period.")
-    private Date basicEndDate;
+            description = "End of time period.",
+            converter = GoldLocalDateTypeConverter.class)
     private LocalDate endDate;
 
     private void preRun() throws WrongTimePeriodException, DateFromTheFutureException {
-        if (basicStartDate != null && basicEndDate != null) {
-            startDate = LocalDate.ofInstant(basicStartDate.toInstant(), ZoneId.systemDefault());
-            endDate = LocalDate.ofInstant(basicEndDate.toInstant(), ZoneId.systemDefault());
-            if (startDate.isAfter(endDate)) throw new WrongTimePeriodException();
-            if (endDate.isAfter(LocalDate.now())) throw new DateFromTheFutureException(endDate);
-        }
+        if (startDate.isAfter(endDate)) throw new WrongTimePeriodException();
+        if (endDate.isAfter(LocalDate.now())) throw new DateFromTheFutureException(endDate);
     }
 
     @Override

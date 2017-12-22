@@ -1,5 +1,6 @@
 package com.yarmarq.subcommand;
 
+import com.yarmarq.converter.RatesLocalDateTypeConverter;
 import com.yarmarq.deserializable.TRate;
 import com.yarmarq.deserializable.Table;
 import com.yarmarq.exception.DateFromTheFutureException;
@@ -23,19 +24,13 @@ public class FluctuationsSubComm implements Runnable {
     private boolean usageHelpRequested;
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
-            description = "Date, from which to calculate fluctuations.")
-    private Date basicDate;
+            description = "Date, from which to calculate fluctuations.",
+            converter = RatesLocalDateTypeConverter.class)
     private LocalDate date;
-
-    private void preRun() throws DateFromTheFutureException {
-        date = LocalDate.ofInstant(basicDate.toInstant(), ZoneId.systemDefault());
-        if (date.isAfter(LocalDate.now())) throw new DateFromTheFutureException(date);
-    }
 
     @Override
     public void run() {
         try {
-            preRun();
             NBPApiFacade facade = NBPApiFacade.getInstance();
             List<Table> tables = facade.getTables('a', date, LocalDate.now());
             Map<String, Double> mins = new HashMap<>();
@@ -73,8 +68,6 @@ public class FluctuationsSubComm implements Runnable {
             e.printStackTrace();
         } catch (JsonParserException e) {
             System.out.println("An error occurred!");
-            System.out.println(e.getMessage());
-        } catch (DateFromTheFutureException e) {
             System.out.println(e.getMessage());
         }
     }
