@@ -6,7 +6,7 @@ JSON file will be fetched from the web.
 Program should have following features:
 - [x] Wypisuje obowiązującą cenę złota oraz cenę podanej waluty (tabela A) w podanym dniu
 - [x] Oblicza średnią cenę złota za podany okres
-- [ ] Odszukuje walutę (tabela A), której kurs, począwszy od podanego dnia, uległ największym wahaniom (waluta, której amplituda zmian kursu jest największa)
+- [x] Odszukuje walutę (tabela A), której kurs, począwszy od podanego dnia, uległ największym wahaniom (waluta, której amplituda zmian kursu jest największa)
 - [x] Odszukuje walutę (tabela C), której kurs kupna był najmniejszy w podanym dniu
 - [x] Wypisuje N walut (tabela C), posortowanych względem różnicy pomiędzy ceną sprzedaży a ceną kupna, w podanym dniu
 - [x] Dla podanej waluty (tabela A) wypisuje informację kiedy dana waluta była najtańsza, a kiedy najdroższa
