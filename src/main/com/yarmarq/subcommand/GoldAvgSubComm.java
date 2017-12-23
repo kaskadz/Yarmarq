@@ -2,17 +2,14 @@ package com.yarmarq.subcommand;
 
 import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.GoldDatePeriodTypeConverter;
-import com.yarmarq.converter.GoldLocalDateTypeConverter;
-import com.yarmarq.exception.DateFromTheFutureException;
+import com.yarmarq.deserializable.Gold;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
-import com.yarmarq.exception.WrongDatePeriodException;
 import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
-import com.yarmarq.deserializable.Gold;
-import picocli.CommandLine.*;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Command(
@@ -35,7 +32,7 @@ public class GoldAvgSubComm extends AbstractCommand implements Runnable {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             List<Gold> golds = facade.getGolds(period);
-            Double avg = golds.stream().mapToDouble(x -> x.getPrice()).average().getAsDouble();
+            Double avg = golds.stream().mapToDouble(Gold::getPrice).average().orElse(0.0);
             System.out.printf("Gold average price from %s to %s is: %f", period.getStartDate(), period.getEndDate(), avg);
         } catch (JsonParserException e) {
             e.printStackTrace();

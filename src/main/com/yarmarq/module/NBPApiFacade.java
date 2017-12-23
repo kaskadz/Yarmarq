@@ -6,16 +6,13 @@ import com.yarmarq.exception.*;
 import com.yarmarq.deserializable.Gold;
 import com.yarmarq.deserializable.Rate;
 import com.yarmarq.deserializable.Table;
-import javafx.util.Pair;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 // Facade - Provide a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.
 public class NBPApiFacade {
@@ -91,12 +88,12 @@ public class NBPApiFacade {
             throw new JsonParserException(e);
         }
         Rate result = new Rate();
-        result.setTable(rateList.stream().map(x -> x.getTable()).distinct().filter(x -> x != null).findFirst().get());
-        result.setCountry(rateList.stream().map(x -> x.getCountry()).distinct().filter(x -> x != null).findFirst().get());
-        result.setSymbol(rateList.stream().map(x -> x.getSymbol()).distinct().filter(x -> x != null).findFirst().get());
-        result.setCurrency(rateList.stream().map(x -> x.getCurrency()).distinct().filter(x -> x != null).findFirst().get());
-        result.setCode(rateList.stream().map(x -> x.getCode()).distinct().filter(x -> x != null).findFirst().get());
-        result.setRates(rateList.stream().map(x -> x.getRates()).flatMap(x -> Arrays.stream(x)).toArray(RRate[]::new));
+        result.setTable(rateList.stream().map(Rate::getTable).distinct().filter(Objects::nonNull).findFirst().orElse("n/a"));
+        result.setCountry(rateList.stream().map(Rate::getCountry).distinct().filter(Objects::nonNull).findFirst().orElse("n/a"));
+        result.setSymbol(rateList.stream().map(Rate::getSymbol).distinct().filter(Objects::nonNull).findFirst().orElse("n/a"));
+        result.setCurrency(rateList.stream().map(Rate::getCurrency).distinct().filter(Objects::nonNull).findFirst().orElse("n/a"));
+        result.setCode(rateList.stream().map(Rate::getCode).distinct().filter(Objects::nonNull).findFirst().orElse("n/a"));
+        result.setRates(rateList.stream().map(Rate::getRates).flatMap(Arrays::stream).toArray(RRate[]::new));
         return result;
     }
 

@@ -3,9 +3,9 @@ package com.yarmarq.exception;
 import java.net.URL;
 
 public class OnlineResourcesAccessException extends Exception {
-    private int responseCode;
-    private String responseMessage;
-    private URL url;
+    private final int responseCode;
+    private final String responseMessage;
+    private final URL url;
 
     public int getResponseCode() {
         return responseCode;

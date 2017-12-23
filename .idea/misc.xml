@@ -3,6 +3,7 @@
   <component name="EntryPointsManager">
     <writeAnnotations>
       <writeAnnotation name="picocli.CommandLine.Parameters" />
+      <writeAnnotation name="picocli.CommandLine.Option" />
     </writeAnnotations>
   </component>
   <component name="ProjectKey">

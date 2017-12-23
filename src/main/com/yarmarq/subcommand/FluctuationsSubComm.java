@@ -56,14 +56,14 @@ public class FluctuationsSubComm extends AbstractCommand implements Runnable {
             Map.Entry<String, Double> entry = ampl
                     .entrySet()
                     .stream()
-                    .max(Comparator.comparing(x -> x.getValue()))
-                    .get();
+                    .max(Comparator.comparing(Map.Entry::getValue))
+                    .orElseThrow(RuntimeException::new);
             TRate currency = tables
                     .stream()
                     .flatMap(x -> Arrays.stream(x.getRates()))
                     .filter(x -> x.getCode().equals(entry.getKey()))
                     .findFirst()
-                    .get();
+                    .orElseThrow(RuntimeException::new);
             System.out.printf("Currency %s (%s) from %s fluctuated the most since %s. The amplitude was %f.", currency.getCurrency(), entry.getKey(), currency.getCountry(), date, entry.getValue());
         } catch (OnlineResourcesAccessException e) {
             System.out.println("An error occurred!");

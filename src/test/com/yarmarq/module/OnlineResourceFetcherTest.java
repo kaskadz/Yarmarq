@@ -1,12 +1,6 @@
 package com.yarmarq.module;
 
-import com.yarmarq.exception.OnlineResourcesAccessException;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class OnlineResourceFetcherTest {
 

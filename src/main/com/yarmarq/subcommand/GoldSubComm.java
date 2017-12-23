@@ -2,18 +2,14 @@ package com.yarmarq.subcommand;
 
 import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.GoldLocalDateTypeConverter;
-import com.yarmarq.exception.DateFromTheFutureException;
+import com.yarmarq.deserializable.Gold;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
-import com.yarmarq.deserializable.Gold;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 
 @Command(
         name = "gold",

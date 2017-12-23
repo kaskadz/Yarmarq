@@ -1,7 +1,6 @@
 package com.yarmarq.module;
 
 import com.yarmarq.exception.WrongDatePeriodException;
-import javafx.util.Pair;
 
 import java.time.LocalDate;
 import java.time.Period;

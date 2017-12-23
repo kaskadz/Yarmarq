@@ -2,7 +2,6 @@ package com.yarmarq;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 import com.yarmarq.subcommand.*;
 
 @Command(

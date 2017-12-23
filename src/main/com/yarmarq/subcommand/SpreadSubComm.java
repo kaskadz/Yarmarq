@@ -49,8 +49,10 @@ public class SpreadSubComm extends AbstractCommand implements Runnable {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Table table = facade.getTable('c', date);
             Stream<TRate> str = Arrays.stream(table.getRates());
-            if (desc) str = str.sorted(Comparator.comparing(TRate::getSpread));
-            else str = str.sorted(Comparator.comparing(TRate::getSpread).reversed());
+            if (desc) str = str
+                    .sorted(Comparator.comparing(TRate::getSpread));
+            else str = str
+                    .sorted(Comparator.comparing(TRate::getSpread).reversed());
             str
                     .limit(n)
                     .forEach(System.out::println);

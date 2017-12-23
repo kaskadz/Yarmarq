@@ -5,13 +5,11 @@ import com.yarmarq.converter.CurrencyCodeTypeConverter;
 import com.yarmarq.deserializable.Rate;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
-import com.yarmarq.exception.WrongCurrencyCodeException;
 import com.yarmarq.exception.WrongDatePeriodException;
 import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
 import javafx.util.Pair;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.time.LocalDate;
@@ -41,16 +39,17 @@ public class MinmaxSubComm extends AbstractCommand implements Runnable {
             Pair<LocalDate, Double> minn = Arrays.stream(rates.getRates())
                     .map(x -> new Pair<>(x.getEffectiveDate(), x.getMid()))
                     .min(Comparator.comparing(Pair::getValue))
-                    .get();
-            Pair<LocalDate, Double> maxx = Arrays.stream(rates.getRates()).map(x -> new Pair<>(x.getEffectiveDate(), x.getMid())).max(Comparator.comparing(Pair::getValue)).get();
+                    .orElseThrow(RuntimeException::new);
+            Pair<LocalDate, Double> maxx = Arrays.stream(rates.getRates())
+                    .map(x -> new Pair<>(x.getEffectiveDate(), x.getMid()))
+                    .max(Comparator.comparing(Pair::getValue))
+                    .orElseThrow(RuntimeException::new);
             System.out.printf("Currency %s had the lowest exchange rate on %s, which was %f and the highest exchange rate on %s, which was %f.", rates.getCurrency(), minn.getKey(), minn.getValue(), maxx.getKey(), maxx.getValue());
-        } catch (JsonParserException e) {
+        } catch (JsonParserException | WrongDatePeriodException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
             System.out.println("An error occurred!");
             System.out.println(e.getMessage());
-        } catch (WrongDatePeriodException e) {
-            e.printStackTrace();
         }
     }
 }
