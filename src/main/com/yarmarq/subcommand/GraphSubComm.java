@@ -1,9 +1,18 @@
 package com.yarmarq.subcommand;
 
 import com.yarmarq.AbstractCommand;
+import com.yarmarq.chart.AsciiWeekRRateChart;
+import com.yarmarq.chart.IChart;
+import com.yarmarq.converter.CurrencyCodeTypeConverter;
 import com.yarmarq.converter.RateDatePeriodTypeConverter;
+import com.yarmarq.deserializable.Rate;
+import com.yarmarq.exception.JsonParserException;
+import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.DatePeriod;
-import picocli.CommandLine.*;
+import com.yarmarq.module.NBPApiFacade;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 
 @Command(
         name = "graph",
@@ -15,7 +24,8 @@ public class GraphSubComm extends AbstractCommand implements Runnable {
             index = "0",
             arity = "1",
             paramLabel = "CODE",
-            description = "Currency code."
+            description = "Currency code.",
+            converter = CurrencyCodeTypeConverter.class
     )
     private String code;
 
@@ -28,10 +38,35 @@ public class GraphSubComm extends AbstractCommand implements Runnable {
     )
     private DatePeriod period;
 
+    @Option(
+            names = {"-w", "--width"},
+            paramLabel = "WIDTH",
+            arity = "1",
+            description = "Max chart bar width."
+    )
+    private int maxBarWidth = 100;
+
+    @Option(
+            names = {"-c", "--char"},
+            paramLabel = "C",
+            arity = "1",
+            description = "Char, to create chat bars from."
+    )
+    private char barChar = '#';
+
     @Override
     public void run() {
-        System.out.println("Graph");
-        System.out.println(period);
+        try {
+            NBPApiFacade facade = NBPApiFacade.getInstance();
+            Rate rates = facade.getRates(code, period);
+            IChart chart = new AsciiWeekRRateChart(rates, maxBarWidth, barChar);
+            chart.draw();
+        } catch (JsonParserException e) {
+            e.printStackTrace();
+        } catch (OnlineResourcesAccessException e) {
+            System.out.println("An error occurred!");
+            System.out.println(e.getMessage());
+        }
     }
 }
-//TODO: Implement graphing functionality.
+//TODO: Consider modifying period input form/type.
