@@ -1,7 +1,7 @@
 package com.yarmarq.subcommand;
 
 import com.yarmarq.AbstractCommand;
-import com.yarmarq.chart.AsciiWeekRRateChart;
+import com.yarmarq.chart.TextWeekRRateChart;
 import com.yarmarq.chart.IChart;
 import com.yarmarq.converter.CurrencyCodeTypeConverter;
 import com.yarmarq.converter.RateDatePeriodTypeConverter;
@@ -59,7 +59,7 @@ public class GraphSubComm extends AbstractCommand implements Runnable {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Rate rates = facade.getRates(code, period);
-            IChart chart = new AsciiWeekRRateChart(rates, maxBarWidth, barChar);
+            IChart chart = new TextWeekRRateChart(rates, maxBarWidth, barChar);
             chart.draw();
         } catch (JsonParserException e) {
             e.printStackTrace();

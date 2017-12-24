@@ -8,12 +8,12 @@ import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class AsciiWeekRRateChart implements IChart {
+public class TextWeekRRateChart implements IChart {
     private final char c;
     private final Map<DayOfWeek, List<RRate>> rateMap;
     private final Double mulFactor;
 
-    public AsciiWeekRRateChart(Rate rate, int maxBarWidth, char c) {
+    public TextWeekRRateChart(Rate rate, int maxBarWidth, char c) {
         this.c = c;
         rateMap = Arrays.stream(rate.getRates())
                 .sorted(Comparator.comparing(RRate::getEffectiveDate))
