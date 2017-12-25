@@ -1,17 +1,17 @@
 package com.yarmarq.subcommand;
 
 import com.yarmarq.AbstractCommand;
-import com.yarmarq.chart.TextWeekRRateChart;
 import com.yarmarq.chart.IChart;
+import com.yarmarq.chart.TextWeekRRateChart;
 import com.yarmarq.converter.CurrencyCodeTypeConverter;
-import com.yarmarq.converter.RateDatePeriodTypeConverter;
+import com.yarmarq.converter.RateWeekDatePeriodTypeConverter;
 import com.yarmarq.deserializable.Rate;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
-import picocli.CommandLine.Option;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Command(
@@ -33,8 +33,8 @@ public class GraphSubComm extends AbstractCommand implements Runnable {
             index = "1",
             arity = "1",
             paramLabel = "DATE_PERIOD",
-            description = "Date period, to generate graph from.",
-            converter = RateDatePeriodTypeConverter.class
+            description = "Date period, to generate graph from. Format: yyyy-MM,n-yyyy-MM,n",
+            converter = RateWeekDatePeriodTypeConverter.class
     )
     private DatePeriod period;
 
@@ -69,4 +69,4 @@ public class GraphSubComm extends AbstractCommand implements Runnable {
         }
     }
 }
-//TODO: Consider modifying period input form/type.
+// DONE
