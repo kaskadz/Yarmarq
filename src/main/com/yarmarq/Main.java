@@ -6,7 +6,7 @@ import com.yarmarq.subcommand.*;
 
 @Command(
         name = "yarmarq", sortOptions = false,
-        header = "Yarmarq - simple access to NBP.pl resources.",
+        header = "Yarmarq - simple access to exchange rates and gold prices from NBP.pl.",
         description = "Provides an interface to Polish NBP api.",
         footer = "\nAuthor: Kasper Kądzielawa",
         subcommands = {
@@ -28,18 +28,7 @@ public class Main extends AbstractCommand implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(" __      __                                                                 \n" +
-                "|  \\    /  \\                                                                \n" +
-                " \\$$\\  /  $$  ______    ______   ______ ____    ______    ______    ______  \n" +
-                "  \\$$\\/  $$  |      \\  /      \\ |      \\    \\  |      \\  /      \\  /      \\ \n" +
-                "   \\$$  $$    \\$$$$$$\\|  $$$$$$\\| $$$$$$\\$$$$\\  \\$$$$$$\\|  $$$$$$\\|  $$$$$$\\\n" +
-                "    \\$$$$    /      $$| $$   \\$$| $$ | $$ | $$ /      $$| $$   \\$$| $$  | $$\n" +
-                "    | $$    |  $$$$$$$| $$      | $$ | $$ | $$|  $$$$$$$| $$      | $$__| $$\n" +
-                "    | $$     \\$$    $$| $$      | $$ | $$ | $$ \\$$    $$| $$       \\$$    $$\n" +
-                "     \\$$      \\$$$$$$$ \\$$       \\$$  \\$$  \\$$  \\$$$$$$$ \\$$        \\$$$$$$$\n" +
-                "                                                                        | $$\n" +
-                "                                       Data via: Narodowy Bank Polski.  | $$\n" +
-                "                                                                         \\$$");
+        System.out.println(banner);
         CommandLine.usage(this, System.out);
     }
 }
