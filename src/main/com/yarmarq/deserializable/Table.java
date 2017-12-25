@@ -1,5 +1,6 @@
 package com.yarmarq.deserializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -11,7 +12,7 @@ import java.util.Arrays;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Table implements Serializable {
     private String table;                   // typ tabeli
     private String no;                      // numer tabeli

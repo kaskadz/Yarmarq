@@ -1,11 +1,13 @@
 package com.yarmarq.deserializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Rate implements Serializable {
     private String table;                   // typ tabeli
     private String country;                 // nazwa kraju
@@ -23,7 +25,7 @@ public class Rate implements Serializable {
     }
 
     public String getCountry() {
-        return country;
+        return (country == null) ? "n/a" : country;
     }
 
     public void setCountry(String country) {

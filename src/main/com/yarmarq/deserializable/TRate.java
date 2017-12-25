@@ -1,7 +1,10 @@
 package com.yarmarq.deserializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TRate implements Serializable {
     private String country;                 // - nazwa kraju
     private String currency;                // – nazwa waluty

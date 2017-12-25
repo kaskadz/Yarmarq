@@ -1,11 +1,13 @@
 package com.yarmarq.deserializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RRate implements Serializable {
     private String no;                      // numer tabeli
     @JsonDeserialize(using = LocalDateDeserializer.class)

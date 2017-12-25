@@ -1,6 +1,8 @@
 package com.yarmarq.deserializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -11,7 +13,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Gold implements Serializable {
     @JsonProperty("data")
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -19,22 +21,20 @@ public class Gold implements Serializable {
     @JsonProperty("cena")
     private Double price;                   // – wyliczona w NBP price 1 g złota (w próbie 1000)
 
-    @JsonProperty("data")
     public LocalDate getDate() {
         return date;
     }
 
-    @JsonProperty("data")
+    @JsonSetter("data")
     public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    @JsonProperty("cena")
     public Double getPrice() {
         return price;
     }
 
-    @JsonProperty("cena")
+    @JsonSetter("cena")
     public void setPrice(Double price) {
         this.price = price;
     }

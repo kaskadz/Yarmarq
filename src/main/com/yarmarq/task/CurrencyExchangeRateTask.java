@@ -12,9 +12,8 @@ public class CurrencyExchangeRateTask implements ITask {
     @Override
     public void accomplish() {
         System.out.printf(
-                "Currency %s from %s of code %s had %.4f exchange rate in %s\n",
+                "Currency %s of code %s had %.4f exchange rate in %s\n",
                 rate.getCurrency(),
-                rate.getCountry(),
                 rate.getCode(),
                 rate.getRates()[0].getMid(),
                 rate.getRates()[0].getEffectiveDate()
