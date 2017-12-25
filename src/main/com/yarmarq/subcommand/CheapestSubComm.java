@@ -38,7 +38,9 @@ public class CheapestSubComm extends AbstractCommand implements Runnable {
             } else {
                 table = facade.getTable('c', date);
             }
-            TRate rate = Arrays.stream(table.getRates()).min(Comparator.comparing(TRate::getBid)).orElseThrow(RuntimeException::new);
+            TRate rate = Arrays.stream(table.getRates())
+                    .min(Comparator.comparing(TRate::getBid))
+                    .orElseThrow(RuntimeException::new);
             System.out.printf("Currency %s of code %s had the smallest buying rate in %s, which was %f", rate.getCurrency(), rate.getCode(), table.getEffectiveDate(), rate.getBid());
         } catch (JsonParserException e) {
             e.printStackTrace();
