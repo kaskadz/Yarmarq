@@ -9,6 +9,7 @@ import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.task.AvgGoldPriceTask;
 import com.yarmarq.task.ITask;
+import com.yarmarq.task.TaskManager;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -34,8 +35,8 @@ public class GoldAvgSubComm extends AbstractCommand implements Runnable {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             List<Gold> golds = facade.getGolds(period);
-            ITask task = new AvgGoldPriceTask(golds, period);
-            task.accomplish();
+            TaskManager taskManager = new TaskManager();
+            taskManager.addTaskAndAcomplishAll(new AvgGoldPriceTask(golds, period));
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {

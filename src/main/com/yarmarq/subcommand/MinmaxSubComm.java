@@ -10,6 +10,7 @@ import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.task.ITask;
 import com.yarmarq.task.MinmaxExchangeRateTask;
+import com.yarmarq.task.TaskManager;
 import javafx.util.Pair;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
@@ -38,8 +39,8 @@ public class MinmaxSubComm extends AbstractCommand implements Runnable {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Rate rates = facade.getRates(code, new DatePeriod(LocalDate.of(2002, 1, 2), LocalDate.now()));
-            ITask task = new MinmaxExchangeRateTask(rates);
-            task.accomplish();
+            TaskManager taskManager = new TaskManager();
+            taskManager.addTaskAndAcomplishAll(new MinmaxExchangeRateTask(rates));
         } catch (JsonParserException | WrongDatePeriodException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {

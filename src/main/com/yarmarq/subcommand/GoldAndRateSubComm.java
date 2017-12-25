@@ -3,22 +3,24 @@ package com.yarmarq.subcommand;
 import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.CurrencyCodeTypeConverter;
 import com.yarmarq.converter.RateLocalDateTypeConverter;
-import com.yarmarq.exception.*;
-import com.yarmarq.module.NBPApiFacade;
+import com.yarmarq.deserializable.Gold;
 import com.yarmarq.deserializable.Rate;
+import com.yarmarq.exception.JsonParserException;
+import com.yarmarq.exception.OnlineResourcesAccessException;
+import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.task.CurrencyExchangeRateTask;
-import com.yarmarq.task.ITask;
+import com.yarmarq.task.GoldPriceTask;
 import com.yarmarq.task.TaskManager;
-import picocli.CommandLine.*;
+import picocli.CommandLine.Parameters;
+import picocli.CommandLine.Command;
 
 import java.time.LocalDate;
 
 @Command(
-        name = "price",
-        description = "Tells current price of goldPrice and current exchange rate of a given currency (Table A) in a given day."
+        name = "gold-and-rates",
+        description = "Tells price of gold and exchange rate of a given currency (Table A) in a given day."
 )
-public class PriceSubComm extends AbstractCommand implements Runnable {
-
+public class GoldAndRateSubComm extends AbstractCommand implements Runnable {
     @Parameters(
             index = "0",
             arity = "1",
@@ -32,7 +34,7 @@ public class PriceSubComm extends AbstractCommand implements Runnable {
             index = "1",
             arity = "0..1",
             paramLabel = "DATE",
-            description = "Exchange rate publication date.",
+            description = "Exchange rate and gold price publication date. (If not given, the most recent data is used.",
             converter = RateLocalDateTypeConverter.class
     )
     private LocalDate date;
@@ -41,14 +43,22 @@ public class PriceSubComm extends AbstractCommand implements Runnable {
     public void run() {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
+            TaskManager taskManager = new TaskManager();
             Rate rate;
             if (date == null) {
                 rate = facade.getRate(code);
             } else {
                 rate = facade.getRate(code, date);
             }
-            TaskManager taskManager = new TaskManager();
-            taskManager.addTaskAndAcomplishAll(new CurrencyExchangeRateTask(rate));
+            taskManager.addTask(new CurrencyExchangeRateTask(rate));
+            Gold gold;
+            if (date == null) {
+                gold = facade.getGold();
+            } else {
+                gold = facade.getGold(date);
+            }
+            taskManager.addTask(new GoldPriceTask(gold));
+            taskManager.acomplishTasks();
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
@@ -57,4 +67,3 @@ public class PriceSubComm extends AbstractCommand implements Runnable {
         }
     }
 }
-// DONE

@@ -8,6 +8,7 @@ import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.task.GoldPriceTask;
 import com.yarmarq.task.ITask;
+import com.yarmarq.task.TaskManager;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -38,8 +39,8 @@ public class GoldSubComm extends AbstractCommand implements Runnable {
             } else {
                 gold = facade.getGold(date);
             }
-            ITask task = new GoldPriceTask(gold);
-            task.accomplish();
+            TaskManager taskManager = new TaskManager();
+            taskManager.addTaskAndAcomplishAll(new GoldPriceTask(gold));
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {

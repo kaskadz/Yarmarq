@@ -22,7 +22,7 @@ public class AvgGoldPriceTask implements ITask {
                 .average()
                 .orElse(0.0);
         System.out.printf(
-                "Gold average price from %s to %s is: %f",
+                "Gold average price from %s to %s is: %f\n",
                 period.getStartDate(), period.getEndDate(), avg
         );
     }

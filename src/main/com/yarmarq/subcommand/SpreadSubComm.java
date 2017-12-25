@@ -8,6 +8,7 @@ import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.task.CurrenciesSortedBySpreadTask;
 import com.yarmarq.task.ITask;
+import com.yarmarq.task.TaskManager;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
@@ -46,8 +47,8 @@ public class SpreadSubComm extends AbstractCommand implements Runnable {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Table table = facade.getTable('c', date);
-            ITask task = new CurrenciesSortedBySpreadTask(table, n, asc, date);
-            task.accomplish();
+            TaskManager taskManager = new TaskManager();
+            taskManager.addTaskAndAcomplishAll(new CurrenciesSortedBySpreadTask(table, n, asc, date));
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {

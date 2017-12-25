@@ -19,7 +19,7 @@ public class SmallestBuyingRateTask implements ITask {
                 .min(Comparator.comparing(TRate::getBid))
                 .orElseThrow(RuntimeException::new);
         System.out.printf(
-                "Currency %s of code %s had the smallest buying rate in %s, which was %f",
+                "Currency %s of code %s had the smallest buying rate in %s, which was %f\n",
                 rate.getCurrency(), rate.getCode(), table.getEffectiveDate(), rate.getBid()
         );
     }

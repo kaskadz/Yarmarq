@@ -5,13 +5,15 @@ import picocli.CommandLine.Command;
 import com.yarmarq.subcommand.*;
 
 @Command(
-        name = "yarmarq", sortOptions = false,
+        name = "yarmarq",
+        sortOptions = false,
         header = "Yarmarq - simple access to exchange rates and gold prices from NBP.pl.",
         description = "Provides an interface to Polish NBP api.",
         footer = "\nAuthor: Kasper Kądzielawa",
         subcommands = {
                 PriceSubComm.class,
                 GoldSubComm.class,
+                GoldAndRateSubComm.class,
                 GoldAvgSubComm.class,
                 FluctuationsSubComm.class,
                 CheapestSubComm.class,
@@ -33,6 +35,6 @@ public class Main extends AbstractCommand implements Runnable {
     }
 }
 //TODO: Think about printing banner in every subcommand.
-//TODO: Consider extracting some functionality from subcommand classes.
 //TODO: Check help metadata.
+//TODO: Add javadoc.
 //TODO: Write tests.

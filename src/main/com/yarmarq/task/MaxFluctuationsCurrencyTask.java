@@ -52,7 +52,7 @@ public class MaxFluctuationsCurrencyTask implements ITask {
                 .orElseThrow(RuntimeException::new);
         // print info
         System.out.printf(
-                "Currency %s (%s) from %s fluctuated the most since %s. The amplitude was %f.",
+                "Currency %s (%s) from %s fluctuated the most since %s. The amplitude was %f.\n",
                 currency.getCurrency(), entry.getKey(), currency.getCountry(), date, entry.getValue()
         );
     }

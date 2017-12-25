@@ -25,7 +25,7 @@ public class MinmaxExchangeRateTask implements ITask {
                 .max(Comparator.comparing(Pair::getValue))
                 .orElseThrow(RuntimeException::new);
         System.out.printf(
-                "Currency %s had the lowest exchange rate on %s, which was %f and the highest exchange rate on %s, which was %f.",
+                "Currency %s had the lowest exchange rate on %s, which was %f and the highest exchange rate on %s, which was %f.\n",
                 rates.getCurrency(), minn.getKey(), minn.getValue(), maxx.getKey(), maxx.getValue()
         );
     }

@@ -10,6 +10,7 @@ import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.task.ITask;
 import com.yarmarq.task.MaxFluctuationsCurrencyTask;
+import com.yarmarq.task.TaskManager;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
@@ -35,8 +36,8 @@ public class FluctuationsSubComm extends AbstractCommand implements Runnable {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             List<Table> tables = facade.getTables('a', new DatePeriod(date, LocalDate.now()));
-            ITask task = new MaxFluctuationsCurrencyTask(tables, date);
-            task.accomplish();
+            TaskManager taskManager = new TaskManager();
+            taskManager.addTaskAndAcomplishAll(new MaxFluctuationsCurrencyTask(tables, date));
         } catch (OnlineResourcesAccessException e) {
             System.out.println("An error occurred!");
             System.out.println(e.getMessage());

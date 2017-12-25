@@ -8,6 +8,7 @@ import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.deserializable.Table;
 import com.yarmarq.task.ITask;
 import com.yarmarq.task.SmallestBuyingRateTask;
+import com.yarmarq.task.TaskManager;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
@@ -37,8 +38,8 @@ public class CheapestSubComm extends AbstractCommand implements Runnable {
             } else {
                 table = facade.getTable('c', date);
             }
-            ITask task = new SmallestBuyingRateTask(table);
-            task.accomplish();
+            TaskManager taskManager = new TaskManager();
+            taskManager.addTaskAndAcomplishAll(new SmallestBuyingRateTask(table));
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {

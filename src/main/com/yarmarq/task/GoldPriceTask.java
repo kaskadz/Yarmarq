@@ -12,7 +12,7 @@ public class GoldPriceTask implements ITask {
     @Override
     public void accomplish() {
         System.out.printf(
-                "Gold price in %s was %.4f",
+                "Gold price in %s was %.4f\n",
                 gold.getDate(), gold.getPrice()
         );
     }
