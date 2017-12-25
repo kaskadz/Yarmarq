@@ -28,10 +28,22 @@ public class Main extends AbstractCommand implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("No subcommand was given, printing help.");
+        System.out.println(" __      __                                                                 \n" +
+                "|  \\    /  \\                                                                \n" +
+                " \\$$\\  /  $$  ______    ______   ______ ____    ______    ______    ______  \n" +
+                "  \\$$\\/  $$  |      \\  /      \\ |      \\    \\  |      \\  /      \\  /      \\ \n" +
+                "   \\$$  $$    \\$$$$$$\\|  $$$$$$\\| $$$$$$\\$$$$\\  \\$$$$$$\\|  $$$$$$\\|  $$$$$$\\\n" +
+                "    \\$$$$    /      $$| $$   \\$$| $$ | $$ | $$ /      $$| $$   \\$$| $$  | $$\n" +
+                "    | $$    |  $$$$$$$| $$      | $$ | $$ | $$|  $$$$$$$| $$      | $$__| $$\n" +
+                "    | $$     \\$$    $$| $$      | $$ | $$ | $$ \\$$    $$| $$       \\$$    $$\n" +
+                "     \\$$      \\$$$$$$$ \\$$       \\$$  \\$$  \\$$  \\$$$$$$$ \\$$        \\$$$$$$$\n" +
+                "                                                                        | $$\n" +
+                "                                       Data via: Narodowy Bank Polski.  | $$\n" +
+                "                                                                         \\$$");
         CommandLine.usage(this, System.out);
     }
 }
+//TODO: Think about placing banner in every subcommand. (Maybe extract banner to abstractCommand.)
 //TODO: Consider extracting some functionality from subcommand classes.
 //TODO: Check help metadata.
 //TODO: Write tests.
