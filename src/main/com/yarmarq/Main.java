@@ -32,5 +32,6 @@ public class Main extends AbstractCommand implements Runnable {
         CommandLine.usage(this, System.out);
     }
 }
+//TODO: Consider extracting some functionality from subcommand classes.
 //TODO: Check help metadata.
 //TODO: Write tests.
