@@ -30,20 +30,23 @@ public class CheapestSubComm extends AbstractCommand implements Runnable {
 
     @Override
     public void run() {
+        printBanner();
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Table table;
+            printPreDownloadMessage();
             if (date == null) {
                 table = facade.getTable('c');
             } else {
                 table = facade.getTable('c', date);
             }
+            printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
             taskManager.addTaskAndAcomplishAll(new SmallestBuyingRateTask(table));
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
-            System.out.println("An error occurred!");
+            printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }
     }

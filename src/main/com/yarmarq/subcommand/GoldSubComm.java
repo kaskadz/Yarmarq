@@ -31,20 +31,23 @@ public class GoldSubComm extends AbstractCommand implements Runnable {
 
     @Override
     public void run() {
+        printBanner();
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Gold gold;
+            printPreDownloadMessage();
             if (date == null) {
                 gold = facade.getGold();
             } else {
                 gold = facade.getGold(date);
             }
+            printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
             taskManager.addTaskAndAcomplishAll(new GoldPriceTask(gold));
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
-            System.out.println("An error occurred!");
+            printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }
     }

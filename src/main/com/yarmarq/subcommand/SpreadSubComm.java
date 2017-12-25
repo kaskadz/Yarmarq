@@ -44,15 +44,18 @@ public class SpreadSubComm extends AbstractCommand implements Runnable {
 
     @Override
     public void run() {
+        printBanner();
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
+            printPreDownloadMessage();
             Table table = facade.getTable('c', date);
+            printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
             taskManager.addTaskAndAcomplishAll(new CurrenciesSortedBySpreadTask(table, n, asc, date));
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
-            System.out.println("An error occurred!");
+            printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }
     }

@@ -29,9 +29,21 @@ public abstract class AbstractCommand {
             "     \\$$      \\$$$$$$$ \\$$       \\$$  \\$$  \\$$  \\$$$$$$$ \\$$        \\$$$$$$$\n" +
             "                                                                        | $$\n" +
             "                                       Data via: Narodowy Bank Polski.  | $$\n" +
-            "                                         Author: Kasper Kądzielawa       \\$$";
+            "                                         Author: Kasper Kądzielawa       \\$$\n";
 
     public void printBanner() {
         System.out.println(banner);
+    }
+
+    public void printPreDownloadMessage() {
+        System.out.print("Downloading data...");
+    }
+
+    public void printPostDownloadMessage() {
+        System.out.println(" Download finished!\n");
+    }
+
+    public void printGeneralErrorMessage() {
+        System.out.println("An error occurred!");
     }
 }

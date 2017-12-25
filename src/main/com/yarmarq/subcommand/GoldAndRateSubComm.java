@@ -41,10 +41,12 @@ public class GoldAndRateSubComm extends AbstractCommand implements Runnable {
 
     @Override
     public void run() {
+        printBanner();
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             TaskManager taskManager = new TaskManager();
             Rate rate;
+            printPreDownloadMessage();
             if (date == null) {
                 rate = facade.getRate(code);
             } else {
@@ -57,12 +59,13 @@ public class GoldAndRateSubComm extends AbstractCommand implements Runnable {
             } else {
                 gold = facade.getGold(date);
             }
+            printPostDownloadMessage();
             taskManager.addTask(new GoldPriceTask(gold));
             taskManager.acomplishTasks();
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
-            System.out.println("An error occurred!");
+            printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }
     }

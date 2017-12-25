@@ -36,15 +36,18 @@ public class MinmaxSubComm extends AbstractCommand implements Runnable {
 
     @Override
     public void run() {
+        printBanner();
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
+            printPreDownloadMessage();
             Rate rates = facade.getRates(code, new DatePeriod(LocalDate.of(2002, 1, 2), LocalDate.now()));
+            printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
             taskManager.addTaskAndAcomplishAll(new MinmaxExchangeRateTask(rates));
         } catch (JsonParserException | WrongDatePeriodException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
-            System.out.println("An error occurred!");
+            printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }
     }

@@ -33,13 +33,16 @@ public class FluctuationsSubComm extends AbstractCommand implements Runnable {
 
     @Override
     public void run() {
+        printBanner();
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
+            printPreDownloadMessage();
             List<Table> tables = facade.getTables('a', new DatePeriod(date, LocalDate.now()));
+            printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
             taskManager.addTaskAndAcomplishAll(new MaxFluctuationsCurrencyTask(tables, date));
         } catch (OnlineResourcesAccessException e) {
-            System.out.println("An error occurred!");
+            printGeneralErrorMessage();
             System.out.println(e.getMessage());
         } catch (JsonParserException | WrongDatePeriodException e) {
             e.printStackTrace();

@@ -56,15 +56,18 @@ public class GraphSubComm extends AbstractCommand implements Runnable {
 
     @Override
     public void run() {
+        printBanner();
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
+            printPreDownloadMessage();
             Rate rates = facade.getRates(code, period);
+            printPostDownloadMessage();
             IChart chart = new TextWeekRRateChart(rates, maxBarWidth, barChar);
             chart.draw();
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
-            System.out.println("An error occurred!");
+            printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }
     }
