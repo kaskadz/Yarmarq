@@ -28,11 +28,11 @@ public class Main extends AbstractCommand implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(banner);
+        printBanner();
         CommandLine.usage(this, System.out);
     }
 }
-//TODO: Think about placing banner in every subcommand. (Maybe extract banner to abstractCommand.)
+//TODO: Think about printing banner in every subcommand.
 //TODO: Consider extracting some functionality from subcommand classes.
 //TODO: Check help metadata.
 //TODO: Write tests.
