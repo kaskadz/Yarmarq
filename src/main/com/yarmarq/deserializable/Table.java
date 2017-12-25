@@ -2,13 +2,15 @@ package com.yarmarq.deserializable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
+
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+
 
 public class Table implements Serializable {
     private String table;                   // typ tabeli

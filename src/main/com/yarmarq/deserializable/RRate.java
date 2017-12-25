@@ -1,7 +1,6 @@
 package com.yarmarq.deserializable;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import java.io.Serializable;
 import java.time.LocalDate;
