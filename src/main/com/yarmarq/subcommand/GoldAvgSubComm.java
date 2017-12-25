@@ -7,6 +7,8 @@ import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
+import com.yarmarq.task.AvgGoldPriceTask;
+import com.yarmarq.task.ITask;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -32,12 +34,8 @@ public class GoldAvgSubComm extends AbstractCommand implements Runnable {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             List<Gold> golds = facade.getGolds(period);
-            Double avg = golds
-                    .stream()
-                    .mapToDouble(Gold::getPrice)
-                    .average()
-                    .orElse(0.0);
-            System.out.printf("Gold average price from %s to %s is: %f", period.getStartDate(), period.getEndDate(), avg);
+            ITask task = new AvgGoldPriceTask(golds, period);
+            task.accomplish();
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {

@@ -6,6 +6,8 @@ import com.yarmarq.converter.RateLocalDateTypeConverter;
 import com.yarmarq.exception.*;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.deserializable.Rate;
+import com.yarmarq.task.CurrencyExchangeRateTask;
+import com.yarmarq.task.ITask;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
@@ -44,8 +46,8 @@ public class PriceSubComm extends AbstractCommand implements Runnable {
             } else {
                 rate = facade.getRate(code, date);
             }
-            System.out.println(rate.getCode());
-            System.out.println(rate.getRates()[0]);
+            ITask task = new CurrencyExchangeRateTask(rate);
+            task.accomplish();
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {

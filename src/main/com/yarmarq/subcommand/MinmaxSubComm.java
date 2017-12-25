@@ -8,6 +8,8 @@ import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.exception.WrongDatePeriodException;
 import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
+import com.yarmarq.task.ITask;
+import com.yarmarq.task.MinmaxExchangeRateTask;
 import javafx.util.Pair;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
@@ -36,15 +38,8 @@ public class MinmaxSubComm extends AbstractCommand implements Runnable {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Rate rates = facade.getRates(code, new DatePeriod(LocalDate.of(2002, 1, 2), LocalDate.now()));
-            Pair<LocalDate, Double> minn = Arrays.stream(rates.getRates())
-                    .map(x -> new Pair<>(x.getEffectiveDate(), x.getMid()))
-                    .min(Comparator.comparing(Pair::getValue))
-                    .orElseThrow(RuntimeException::new);
-            Pair<LocalDate, Double> maxx = Arrays.stream(rates.getRates())
-                    .map(x -> new Pair<>(x.getEffectiveDate(), x.getMid()))
-                    .max(Comparator.comparing(Pair::getValue))
-                    .orElseThrow(RuntimeException::new);
-            System.out.printf("Currency %s had the lowest exchange rate on %s, which was %f and the highest exchange rate on %s, which was %f.", rates.getCurrency(), minn.getKey(), minn.getValue(), maxx.getKey(), maxx.getValue());
+            ITask task = new MinmaxExchangeRateTask(rates);
+            task.accomplish();
         } catch (JsonParserException | WrongDatePeriodException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {

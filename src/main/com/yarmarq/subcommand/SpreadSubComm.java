@@ -2,17 +2,15 @@ package com.yarmarq.subcommand;
 
 import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.RateLocalDateTypeConverter;
-import com.yarmarq.deserializable.TRate;
 import com.yarmarq.deserializable.Table;
 import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
+import com.yarmarq.task.CurrenciesSortedBySpreadTask;
+import com.yarmarq.task.ITask;
 import picocli.CommandLine.*;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.stream.Stream;
 
 @Command(
         name = "spread",
@@ -21,10 +19,10 @@ import java.util.stream.Stream;
 public class SpreadSubComm extends AbstractCommand implements Runnable {
 
     @Option(
-            names = {"-d", "--desc"},
-            description = "Sorts in descending order. (Default is ascending)"
+            names = {"-a", "--asc"},
+            description = "Sorts in ascending order. (Default is descending)"
     )
-    private boolean desc;
+    private boolean asc;
 
     @Parameters(
             index = "0",
@@ -37,25 +35,19 @@ public class SpreadSubComm extends AbstractCommand implements Runnable {
 
     @Parameters(
             index = "1",
-            arity = "1",
+            arity = "0..1",
             paramLabel = "N",
-            description = "How many currencies to find."
+            description = "How many currencies to find. (Default 5)"
     )
-    private Integer n;
+    private Integer n = 5;
 
     @Override
     public void run() {
         try {
             NBPApiFacade facade = NBPApiFacade.getInstance();
             Table table = facade.getTable('c', date);
-            Stream<TRate> str = Arrays.stream(table.getRates());
-            if (desc) str = str
-                    .sorted(Comparator.comparing(TRate::getSpread));
-            else str = str
-                    .sorted(Comparator.comparing(TRate::getSpread).reversed());
-            str
-                    .limit(n)
-                    .forEach(System.out::println);
+            ITask task = new CurrenciesSortedBySpreadTask(table, n, asc, date);
+            task.accomplish();
         } catch (JsonParserException e) {
             e.printStackTrace();
         } catch (OnlineResourcesAccessException e) {
