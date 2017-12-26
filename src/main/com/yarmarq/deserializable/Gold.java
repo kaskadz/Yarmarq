@@ -41,22 +41,20 @@ public class Gold implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("> G: [Date: %s] [Price: %.2f]", date, price);
+        return String.format(
+                "> GOLD: [Date]: %s [Price]: %.2f",
+                date, price
+        );
     }
 
-    public static void main(String[] args) {
-        Gold geld = new Gold();
-        geld.setPrice(1234.567);
-        LocalDate date = LocalDate.parse("2017-12-15");
-        geld.setDate(date);
-        System.out.println(geld);
-
+    public static Gold deserializeOne(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        try {
-            Gold[] golds = mapper.readValue(new URL("http://api.nbp.pl/api/cenyzlota/2013-01-01/2013-01-31/?format=json"), Gold[].class);
-            Arrays.asList(golds).forEach(System.out::println);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Gold[] golds = mapper.readValue(json, Gold[].class);
+        return golds[0];
+    }
+
+    public static Gold[] deserializeMany(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, Gold[].class);
     }
 }

@@ -55,18 +55,4 @@ public class OnlineResourceFetcher {
         }
         return responseCode == 200;
     }
-
-    public static void main(String[] args) {
-        try {
-            OnlineResourceFetcher fetcher = new OnlineResourceFetcher("http://api.nbp.pl/api/cenyzlota/2017-12-02/2017-12-04/");
-            if (fetcher.fetchResource()) {
-                System.out.println(fetcher.getContent());
-            } else {
-                System.out.println(fetcher.responseCode);
-                System.out.println(fetcher.responseMessage);
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-    }
 }

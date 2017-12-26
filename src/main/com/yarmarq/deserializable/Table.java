@@ -62,21 +62,17 @@ public class Table implements Serializable {
         this.rates = rates;
     }
 
+    public int getRatesCount() {
+        return rates.length;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("> TABLE: [Table: ");
-        sb.append(table);
-        sb.append("] [No: ");
-        sb.append(no);
-        sb.append("] [Trading Date: ");
-        sb.append(tradingDate);
-        sb.append("] [Effective Date: ");
-        sb.append(effectiveDate);
-        sb.append("] [Rates: ");
-        sb.append(rates.length);
-        sb.append("]");
-        sb.append("\n");
+        sb.append(String.format(
+                "> TABLE: [Table]: %s [No]: %s [Trading date]: %s [Effective date]: %s [Rates]: %d\n",
+                table, no, tradingDate, effectiveDate, getRatesCount()
+        ));
         for (TRate rate : rates) {
             sb.append(rate);
             sb.append("\n");
@@ -84,17 +80,14 @@ public class Table implements Serializable {
         return sb.toString();
     }
 
-    public static void main(String[] args) {
+    public static Table deserializeOne(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        try {
-            Table[] table = mapper.readValue(new URL("http://api.nbp.pl/api/exchangerates/tables/b/2012-01-01/2012-01-31/?format=json"), Table[].class);
-            Arrays.asList(table).forEach(System.out::println);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Table[] tables = mapper.readValue(json, Table[].class);
+        return tables[0];
     }
 
-    public int getRatesCount() {
-        return rates.length;
+    public static Table[] deserializeMany(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, Table[].class);
     }
 }

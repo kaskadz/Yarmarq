@@ -67,18 +67,10 @@ public class Rate implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("> RATE: [table: ");
-        sb.append(table);
-        sb.append("] [country: ");
-        sb.append(country);
-        sb.append("] [symbol: ");
-        sb.append(symbol);
-        sb.append("] [currency: ");
-        sb.append(currency);
-        sb.append("] [code: ");
-        sb.append(code);
-        sb.append("]");
-        sb.append("\n");
+        sb.append(String.format(
+                "> RATE: [Table]: %s [Country]: %s [Symbol]: %s [Currency]: %s [Code]: %s\n",
+                table, country, symbol, currency, code
+        ));
         for (RRate rate : rates) {
             sb.append(rate);
             sb.append("\n");
@@ -86,13 +78,8 @@ public class Rate implements Serializable {
         return sb.toString();
     }
 
-    public static void main(String[] args) {
+    public static Rate deserialize(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        try {
-            Rate rate = mapper.readValue(new URL("http://api.nbp.pl/api/exchangerates/rates/a/gbp/2012-01-01/2012-01-31/?format=json"), Rate.class);
-            System.out.println(rate);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return mapper.readValue(json, Rate.class);
     }
 }

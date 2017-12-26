@@ -48,4 +48,3 @@ public class GoldAvgSubComm extends AbstractCommand implements Runnable {
         }
     }
 }
-// DONE
