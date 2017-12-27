@@ -2,6 +2,7 @@ package com.yarmarq.subcommand;
 
 import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.CurrencyCodeTypeConverter;
+import com.yarmarq.converter.GoldLocalDateTypeConverter;
 import com.yarmarq.converter.RateLocalDateTypeConverter;
 import com.yarmarq.deserializable.Gold;
 import com.yarmarq.deserializable.Rate;
@@ -35,7 +36,7 @@ public class GoldAndRateSubComm extends AbstractCommand implements Runnable {
             arity = "0..1",
             paramLabel = "DATE",
             description = "Exchange rate and gold price publication date. (If not given, the most recent data is used.",
-            converter = RateLocalDateTypeConverter.class
+            converter = GoldLocalDateTypeConverter.class
     )
     private LocalDate date;
 
