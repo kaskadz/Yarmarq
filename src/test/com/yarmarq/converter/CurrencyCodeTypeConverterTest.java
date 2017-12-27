@@ -2,6 +2,7 @@ package com.yarmarq.converter;
 
 import com.yarmarq.exception.WrongCurrencyCodeException;
 import org.junit.jupiter.api.Test;
+import picocli.CommandLine.ITypeConverter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,7 +10,7 @@ class CurrencyCodeTypeConverterTest {
 
     @Test
     void convertTest() {
-        CurrencyCodeTypeConverter converter = new CurrencyCodeTypeConverter();
+        ITypeConverter converter = new CurrencyCodeTypeConverter();
         assertThrows(WrongCurrencyCodeException.class, () -> converter.convert("abcd"));
         assertThrows(WrongCurrencyCodeException.class, () -> converter.convert("b4d"));
         assertThrows(WrongCurrencyCodeException.class, () -> converter.convert("bd"));
