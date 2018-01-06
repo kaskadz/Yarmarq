@@ -44,9 +44,7 @@ public class MinmaxSubComm extends AbstractCommand implements Runnable {
             printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
             taskManager.addTaskAndAcomplishAll(new MinmaxExchangeRateTask(rates));
-        } catch (JsonParserException | WrongDatePeriodException e) {
-            e.printStackTrace();
-        } catch (OnlineResourcesAccessException e) {
+        } catch (JsonParserException | WrongDatePeriodException | OnlineResourcesAccessException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }

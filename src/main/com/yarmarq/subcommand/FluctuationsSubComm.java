@@ -41,11 +41,9 @@ public class FluctuationsSubComm extends AbstractCommand implements Runnable {
             printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
             taskManager.addTaskAndAcomplishAll(new MaxFluctuationsCurrencyTask(tables, date));
-        } catch (OnlineResourcesAccessException e) {
+        } catch (OnlineResourcesAccessException | JsonParserException | WrongDatePeriodException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());
-        } catch (JsonParserException | WrongDatePeriodException e) {
-            e.printStackTrace();
         }
     }
 }

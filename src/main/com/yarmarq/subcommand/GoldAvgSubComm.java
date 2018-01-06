@@ -40,9 +40,7 @@ public class GoldAvgSubComm extends AbstractCommand implements Runnable {
             printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
             taskManager.addTaskAndAcomplishAll(new AvgGoldPriceTask(golds, period));
-        } catch (JsonParserException e) {
-            e.printStackTrace();
-        } catch (OnlineResourcesAccessException e) {
+        } catch (JsonParserException | OnlineResourcesAccessException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }

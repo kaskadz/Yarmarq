@@ -52,9 +52,7 @@ public class SpreadSubComm extends AbstractCommand implements Runnable {
             printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
             taskManager.addTaskAndAcomplishAll(new CurrenciesSortedBySpreadTask(table, n, asc, date));
-        } catch (JsonParserException e) {
-            e.printStackTrace();
-        } catch (OnlineResourcesAccessException e) {
+        } catch (JsonParserException | OnlineResourcesAccessException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }

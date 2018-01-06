@@ -64,9 +64,7 @@ public class GraphSubComm extends AbstractCommand implements Runnable {
             printPostDownloadMessage();
             IChart chart = new TextWeekRRateChart(rates, maxBarWidth, barChar);
             chart.draw();
-        } catch (JsonParserException e) {
-            e.printStackTrace();
-        } catch (OnlineResourcesAccessException e) {
+        } catch (JsonParserException | OnlineResourcesAccessException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }

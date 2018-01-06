@@ -44,7 +44,7 @@ public class NBPApiFacade {
                 throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
             }
         } catch (IOException e) {
-            throw new JsonParserException(e);
+            throw new JsonParserException();
         }
     }
 
@@ -59,7 +59,7 @@ public class NBPApiFacade {
                 throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
             }
         } catch (IOException e) {
-            throw new JsonParserException(e);
+            throw new JsonParserException();
         }
     }
 
@@ -82,7 +82,7 @@ public class NBPApiFacade {
                 }
             }
         } catch (IOException e) {
-            throw new JsonParserException(e);
+            throw new JsonParserException();
         }
         Rate result = new Rate();
         Function<Function<Rate, String>, String> extract = f -> rateList
@@ -116,7 +116,7 @@ public class NBPApiFacade {
                 throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
             }
         } catch (IOException e) {
-            throw new JsonParserException(e);
+            throw new JsonParserException();
         }
     }
 
@@ -131,7 +131,7 @@ public class NBPApiFacade {
                 throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
             }
         } catch (IOException e) {
-            throw new JsonParserException(e);
+            throw new JsonParserException();
         }
     }
 
@@ -150,7 +150,7 @@ public class NBPApiFacade {
                 }
             }
         } catch (IOException e) {
-            throw new JsonParserException(e);
+            throw new JsonParserException();
         }
         return result;
     }
@@ -166,7 +166,7 @@ public class NBPApiFacade {
                 throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
             }
         } catch (IOException e) {
-            throw new JsonParserException(e);
+            throw new JsonParserException();
         }
     }
 
@@ -181,7 +181,7 @@ public class NBPApiFacade {
                 throw new OnlineResourcesAccessException(fetcher.getResponseCode(), fetcher.getResponseMessage(), fetcher.getUrl());
             }
         } catch (IOException e) {
-            throw new JsonParserException(e);
+            throw new JsonParserException();
         }
     }
 
@@ -200,7 +200,7 @@ public class NBPApiFacade {
                 }
             }
         } catch (IOException e) {
-            throw new JsonParserException(e);
+            throw new JsonParserException();
         }
         return result;
     }

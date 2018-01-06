@@ -63,9 +63,7 @@ public class GoldAndRateSubComm extends AbstractCommand implements Runnable {
             printPostDownloadMessage();
             taskManager.addTask(new GoldPriceTask(gold));
             taskManager.acomplishTasks();
-        } catch (JsonParserException e) {
-            e.printStackTrace();
-        } catch (OnlineResourcesAccessException e) {
+        } catch (JsonParserException | OnlineResourcesAccessException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());
         }
