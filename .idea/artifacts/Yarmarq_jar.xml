@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Yarmarq:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Yarmarq_jar</output-path>
+    <root id="archive" name="Yarmarq.jar">
+      <element id="module-output" name="Yarmarq" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.9.3/jackson-datatype-jsr310-2.9.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.9.0/jackson-annotations-2.9.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.9.3/jackson-core-2.9.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.9.3/jackson-databind-2.9.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/info/picocli/picocli/2.2.0/picocli-2.2.0.jar" path-in-jar="/" />
+      <element id="library" level="project" name="com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.3" />
+      <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-databind:2.9.3" />
+      <element id="library" level="project" name="info.picocli:picocli:2.2.0" />
+    </root>
+  </artifact>
+</component>

@@ -34,7 +34,5 @@ public class Main extends AbstractCommand implements Runnable {
         CommandLine.usage(this, System.out);
     }
 }
-//TODO: Think about printing banner in every subcommand.
 //TODO: Check help metadata.
 //TODO: Add javadoc.
-//TODO: Write tests.
