@@ -3,7 +3,6 @@ package com.yarmarq.subcommand;
 import com.yarmarq.AbstractCommand;
 import com.yarmarq.converter.CurrencyCodeTypeConverter;
 import com.yarmarq.converter.GoldLocalDateTypeConverter;
-import com.yarmarq.converter.RateLocalDateTypeConverter;
 import com.yarmarq.deserializable.Gold;
 import com.yarmarq.deserializable.Rate;
 import com.yarmarq.exception.JsonParserException;
@@ -62,7 +61,7 @@ public class GoldAndRateSubComm extends AbstractCommand implements Runnable {
             }
             printPostDownloadMessage();
             taskManager.addTask(new GoldPriceTask(gold));
-            taskManager.acomplishTasks();
+            taskManager.accomplishTasks();
         } catch (JsonParserException | OnlineResourcesAccessException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());

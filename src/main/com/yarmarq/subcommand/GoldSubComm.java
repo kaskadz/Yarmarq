@@ -7,7 +7,6 @@ import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.task.GoldPriceTask;
-import com.yarmarq.task.ITask;
 import com.yarmarq.task.TaskManager;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
@@ -43,7 +42,7 @@ public class GoldSubComm extends AbstractCommand implements Runnable {
             }
             printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
-            taskManager.addTaskAndAcomplishAll(new GoldPriceTask(gold));
+            taskManager.addTaskAndAccomplishAll(new GoldPriceTask(gold));
         } catch (JsonParserException | OnlineResourcesAccessException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());

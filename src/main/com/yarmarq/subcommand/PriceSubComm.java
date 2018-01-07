@@ -7,7 +7,6 @@ import com.yarmarq.exception.*;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.deserializable.Rate;
 import com.yarmarq.task.CurrencyExchangeRateTask;
-import com.yarmarq.task.ITask;
 import com.yarmarq.task.TaskManager;
 import picocli.CommandLine.*;
 
@@ -51,7 +50,7 @@ public class PriceSubComm extends AbstractCommand implements Runnable {
             }
             printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
-            taskManager.addTaskAndAcomplishAll(new CurrencyExchangeRateTask(rate));
+            taskManager.addTaskAndAccomplishAll(new CurrencyExchangeRateTask(rate));
         } catch (JsonParserException | OnlineResourcesAccessException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());

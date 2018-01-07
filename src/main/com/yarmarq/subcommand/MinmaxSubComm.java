@@ -8,16 +8,12 @@ import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.exception.WrongDatePeriodException;
 import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
-import com.yarmarq.task.ITask;
 import com.yarmarq.task.MinmaxExchangeRateTask;
 import com.yarmarq.task.TaskManager;
-import javafx.util.Pair;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Comparator;
 
 @Command(
         name = "minmax",
@@ -43,7 +39,7 @@ public class MinmaxSubComm extends AbstractCommand implements Runnable {
             Rate rates = facade.getRates(code, new DatePeriod(LocalDate.of(2002, 1, 2), LocalDate.now()));
             printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
-            taskManager.addTaskAndAcomplishAll(new MinmaxExchangeRateTask(rates));
+            taskManager.addTaskAndAccomplishAll(new MinmaxExchangeRateTask(rates));
         } catch (JsonParserException | WrongDatePeriodException | OnlineResourcesAccessException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());

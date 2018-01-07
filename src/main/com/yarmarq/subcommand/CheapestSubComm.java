@@ -6,7 +6,6 @@ import com.yarmarq.exception.JsonParserException;
 import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.module.NBPApiFacade;
 import com.yarmarq.deserializable.Table;
-import com.yarmarq.task.ITask;
 import com.yarmarq.task.SmallestBuyingRateTask;
 import com.yarmarq.task.TaskManager;
 import picocli.CommandLine.*;
@@ -42,7 +41,7 @@ public class CheapestSubComm extends AbstractCommand implements Runnable {
             }
             printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
-            taskManager.addTaskAndAcomplishAll(new SmallestBuyingRateTask(table));
+            taskManager.addTaskAndAccomplishAll(new SmallestBuyingRateTask(table));
         } catch (JsonParserException | OnlineResourcesAccessException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());

@@ -8,7 +8,6 @@ import com.yarmarq.exception.OnlineResourcesAccessException;
 import com.yarmarq.exception.WrongDatePeriodException;
 import com.yarmarq.module.DatePeriod;
 import com.yarmarq.module.NBPApiFacade;
-import com.yarmarq.task.ITask;
 import com.yarmarq.task.MaxFluctuationsCurrencyTask;
 import com.yarmarq.task.TaskManager;
 import picocli.CommandLine.*;
@@ -40,7 +39,7 @@ public class FluctuationsSubComm extends AbstractCommand implements Runnable {
             List<Table> tables = facade.getTables('a', new DatePeriod(date, LocalDate.now()));
             printPostDownloadMessage();
             TaskManager taskManager = new TaskManager();
-            taskManager.addTaskAndAcomplishAll(new MaxFluctuationsCurrencyTask(tables, date));
+            taskManager.addTaskAndAccomplishAll(new MaxFluctuationsCurrencyTask(tables, date));
         } catch (OnlineResourcesAccessException | JsonParserException | WrongDatePeriodException e) {
             printGeneralErrorMessage();
             System.out.println(e.getMessage());

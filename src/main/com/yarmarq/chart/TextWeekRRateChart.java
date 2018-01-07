@@ -8,11 +8,21 @@ import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Week chart IChart implementation.
+ */
 public class TextWeekRRateChart implements IChart {
     private final char c;
     private final Map<DayOfWeek, List<RRate>> rateMap;
     private final Double mulFactor;
 
+    /**
+     * A constructor, that takes rate object, containing data and parameters, describing chart.
+     *
+     * @param rate        rate object, containing rates data
+     * @param maxBarWidth maximum width of a bar in graph
+     * @param c           char, from which to draw a bar
+     */
     public TextWeekRRateChart(Rate rate, int maxBarWidth, char c) {
         this.c = c;
         rateMap = Arrays.stream(rate.getRates())

@@ -1,8 +1,8 @@
 package com.yarmarq;
 
+import com.yarmarq.subcommand.*;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import com.yarmarq.subcommand.*;
 
 @Command(
         name = "yarmarq",
@@ -35,4 +35,3 @@ public class Main extends AbstractCommand implements Runnable {
     }
 }
 //TODO: Check help metadata.
-//TODO: Add javadoc.

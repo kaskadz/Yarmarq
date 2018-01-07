@@ -10,10 +10,20 @@ import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Converter class for rate week date period.
+ */
 public class RateWeekDatePeriodTypeConverter implements CommandLine.ITypeConverter<DatePeriod> {
     private final Pattern pattern = Pattern.compile("^(\\d{4})-(\\d{2}),(\\d):(\\d{4})-(\\d{2}),(\\d)$");
     private final LocalDate refDate = LocalDate.of(2002, 1, 2);
 
+    /**
+     * Converts string to DatePeriod, based on some fancy format.
+     *
+     * @param s date period as string
+     * @return DatePeriod constructed from a string
+     * @throws Exception thrown, when wrong format or wrong date is given
+     */
     @Override
     public DatePeriod convert(String s) throws Exception {
         Matcher matcher = pattern.matcher(s);
