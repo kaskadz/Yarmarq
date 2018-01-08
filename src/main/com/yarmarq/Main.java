@@ -34,4 +34,3 @@ public class Main extends AbstractCommand implements Runnable {
         CommandLine.usage(this, System.out);
     }
 }
-//TODO: Check help metadata.
