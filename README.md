@@ -1,7 +1,9 @@
 # Yarmarq
 
-The program will be using [NBP API](http://api.nbp.pl/).
-JSON file will be fetched from the web.
+Simple Java [NBP API](http://api.nbp.pl/) console client, made as an asssignment for an OOP university course.
+
+## Feature specification
+ _Following feature specification is written in the Polish language, since this was copy-pasted from content of a task._
 
 Program should have following features:
 - [x] Wypisuje, dla podanego dnia, obowiązującą cenę złota oraz cenę podanej waluty (tabela A)
@@ -17,5 +19,4 @@ Program should have following features:
 - [x] Po wywołaniu programu bez argumentów wyświetla pomoc (opis opcji oraz sposobu uruchamiania programu)
 
 Notices:
-- [ ] It shouldReady for extension to [sejmometr API](https://mojepanstwo.pl/api/sejmometr)
 - [x] At least one design pattern.
